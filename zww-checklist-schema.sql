@@ -1,4 +1,5 @@
 -- Zelda Wind Waker Checklist
+BEGIN;
 
 PRAGMA foreign_keys = ON;
 
@@ -7,8 +8,11 @@ DROP TABLE IF EXISTS `HeartPiece`;
 DROP TABLE IF EXISTS `Item`;
 DROP TABLE IF EXISTS `TreasureChart`;
 
--- Map Coordiates
+--------------------
+-- Map Coordinates
+--------------------
 -- Latitude
+--------------------
 DROP TABLE IF EXISTS `Latitude`;
 CREATE TABLE IF NOT EXISTS `Latitude`(
     `value` CHAR(1) PRIMARY KEY NOT NULL
@@ -17,6 +21,7 @@ INSERT INTO `Latitude` ( `value` ) VALUES
     ('A'), ('B'), ('C'), ('D'), ('E'), ('F'), ('G');
 
 -- Longitude
+--------------------
 DROP TABLE IF EXISTS `Longitude`;
 CREATE TABLE IF NOT EXISTS `Longitude`(
     `value` UNSIGNED TINYINT(1) PRIMARY KEY NOT NULL
@@ -25,6 +30,7 @@ INSERT INTO `Longitude` ( `value` ) VALUES
     (1), (2), (3), (4), (5), (6), (7);
 
 -- Island
+--------------------
 CREATE TABLE IF NOT EXISTS `Island`(
     -- `id` INTEGER PRIMARY KEY NOT NULL,
     `name` VARCHAR(200) PRIMARY KEY NOT NULL,
@@ -99,6 +105,7 @@ INSERT INTO `Island` (
 ;
 
 -- Heart Pieces
+--------------------
 CREATE TABLE IF NOT EXISTS `HeartPiece`(
     `id` INTEGER PRIMARY KEY NOT NULL,
     `latitude` CHAR(1),
@@ -160,6 +167,7 @@ INSERT INTO `HeartPiece` (
 ;
 
 -- Items
+--------------------
 CREATE TABLE IF NOT EXISTS `Item`(
     -- `id` INTEGER PRIMARY KEY NOT NULL,
     `name` VARCHAR(50) PRIMARY KEY NOT NULL,
@@ -216,6 +224,7 @@ INSERT INTO `Item` (
 ;
 
 -- Treasure Charts
+--------------------
 CREATE TABLE IF NOT EXISTS `TreasureChart`(
     `number` INTEGER PRIMARY KEY NOT NULL,
     `latitude` CHAR(1),
@@ -257,7 +266,7 @@ INSERT INTO `TreasureChart` (
     (25, 'G', 6, "Use Secret Cave to reach it on high cliff"),
     (26, 'D', 4, "Clear all artillery from the reef"),
     (27, 'E', 5, "On top of the cliff"),
-    (28, 'A', 7, "Finish the \"Golf\" game with the Boko Nuts"),
+    (28, 'A', 7, "Finish the ""Golf"" game with the Boko Nuts"),
     (29, 'D', 2, "Secret room in Lenzo's house"),
     (30, 'E', 4, "In Tower of the Gods"),
     (31, 'D', 2, "Show full moon picto to man on steps"),
@@ -273,11 +282,14 @@ INSERT INTO `TreasureChart` (
     (41, 'B', 6, "Clear the artillery from the reef")
 ;
 
--- Helpful Queries
--- SELECT `latitude`, `longitude`, `task` FROM `HeartPiece`;
+END;
 
--- SELECT `name`, `latitude`, `longitude`, `details`,
+-- Helpful Queries
+
+-- SELECT `latitude` || `longitude` AS "coordinates", `task` FROM `HeartPiece`;
+
+-- SELECT `latitude` || `longitude` AS "coordinates", `name`, `details`,
 --     CASE WHEN required THEN '' ELSE 'Optional' END as "required"
 -- FROM `Item`;
 
--- SELECT `latitude`, `longitude`, `number`, `details` FROM `TreasureChart`;
+-- SELECT `latitude` || `longitude` AS "coordinates", `number`, `details` FROM `TreasureChart`;
