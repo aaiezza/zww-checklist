@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `Island`(
         FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
 );
 CREATE UNIQUE INDEX `island_coordinate` ON
-    `Island`(`latitude`, `longitude`);
+    `Island`(`latitude` || `longitude`);
 CREATE UNIQUE INDEX `island_name` ON
     `Island`(`name`);
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `HeartPiece`(
         FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
 );
 CREATE INDEX `heart_piece_coordinate` ON
-    `HeartPiece`(`latitude`, `longitude`);
+    `HeartPiece`(`latitude` || `longitude`);
 
 INSERT INTO `HeartPiece` (
     `latitude`, `longitude`, `task`
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `Item`(
         FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
 );
 CREATE INDEX `item_coordinate` ON
-    `Item`(`latitude`, `longitude`);
+    `Item`(`latitude` || `longitude`);
 
 INSERT INTO `Item` (
     `latitude`, `longitude`, `required`, `name`, `details`
@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `TreasureChart`(
         FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
 );
 CREATE INDEX `treasure_chart_coordinate` ON
-    `TreasureChart`(`latitude`, `longitude`);
+    `TreasureChart`(`latitude` || `longitude`);
 
 INSERT INTO `TreasureChart` (
     `number`, `latitude`, `longitude`, `details`
@@ -283,13 +283,3 @@ INSERT INTO `TreasureChart` (
 ;
 
 END;
-
--- Helpful Queries
-
--- SELECT `latitude` || `longitude` AS "coordinates", `task` FROM `HeartPiece`;
-
--- SELECT `latitude` || `longitude` AS "coordinates", `name`, `details`,
---     CASE WHEN required THEN '' ELSE 'Optional' END as "required"
--- FROM `Item`;
-
--- SELECT `latitude` || `longitude` AS "coordinates", `number`, `details` FROM `TreasureChart`;
