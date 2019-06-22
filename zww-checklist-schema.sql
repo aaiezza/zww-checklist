@@ -5,6 +5,7 @@ PRAGMA foreign_keys = ON;
 DROP TABLE IF EXISTS `Island`;
 DROP TABLE IF EXISTS `HeartPiece`;
 DROP TABLE IF EXISTS `Item`;
+DROP TABLE IF EXISTS `TreasureChart`;
 
 -- Map Coordiates
 -- Latitude
@@ -158,7 +159,7 @@ INSERT INTO `HeartPiece` (
     ('G', 7, "Use Treasure Chart 33")
 ;
 
--- Required Items
+-- Items
 CREATE TABLE IF NOT EXISTS `Item`(
     -- `id` INTEGER PRIMARY KEY NOT NULL,
     `name` VARCHAR(50) PRIMARY KEY NOT NULL,
@@ -214,3 +215,69 @@ INSERT INTO `Item` (
     ('D', 2, 0, "Bottle 4",               "Mila")
 ;
 
+-- Treasure Charts
+CREATE TABLE IF NOT EXISTS `TreasureChart`(
+    `number` INTEGER PRIMARY KEY NOT NULL,
+    `latitude` CHAR(1),
+    `longitude` UNSIGNED TINYINT(1),
+    `details` VARCHAR(255),
+        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
+        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+);
+CREATE INDEX `treasure_chart_coordinate` ON
+    `TreasureChart`(`latitude`, `longitude`);
+
+INSERT INTO `TreasureChart` (
+    `number`, `latitude`, `longitude`, `details`
+) VALUES
+    (01, 'F', 6, "In Forbidden Woods"),
+    (02, 'D', 2, "Give Maggie's Father 20 Skull Necklaces"),
+    (03, 'F', 6, "Small island outside Forest Haven, Deku Leaf"),
+    (04, 'B', 3, "Beedle Special Shop (900 Rupees)"),
+    (05, 'D', 1, "In Wind Temple"),
+    (06, 'E', 4, "In Tower of the Gods"),
+    (07, 'D', 2, "Win the Zee Fleet mini-game (2nd)"),
+    (08, 'A', 7, "Clear the Secret Cave"),
+    (09, 'E', 1, "Clear the Submarine"),
+    (10, 'E', 1, "Sitting on the island"),
+    (11, 'F', 2, "In Dragon Roost Cavern"),
+    (12, 'C', 7, "In Earth Temple"),
+    (13, 'D', 7, "Clear the artillery from the reef"),
+    (14, 'C', 7, "Clear the Submarine"),
+    (15, 'F', 6, "In Forbidden Woods"),
+    (16, 'F', 1, "Clear the Platforms"),
+    (17, 'C', 2, "Win the Cannon Shoot mini-game (2nd)"),
+    (18, 'D', 2, "Win the Auction (2nd)"),
+    (19, 'A', 2, "Clear all artillery from the reef"),
+    (20, 'C', 7, "In Earth Temple"),
+    (21, 'C', 4, "Clear all artillery from the reef"),
+    (22, 'C', 1, "Clear the Submarine"),
+    (23, 'D', 2, "Win the Zee Fleet mini-game (3rd)"),
+    (24, 'D', 2, "Show Lenzo & friend picto to gossip ladies"),
+    (25, 'G', 6, "Use Secret Cave to reach it on high cliff"),
+    (26, 'D', 4, "Clear all artillery from the reef"),
+    (27, 'E', 5, "On top of the cliff"),
+    (28, 'A', 7, "Finish the \"Golf\" game with the Boko Nuts"),
+    (29, 'D', 2, "Secret room in Lenzo's house"),
+    (30, 'E', 4, "In Tower of the Gods"),
+    (31, 'D', 2, "Show full moon picto to man on steps"),
+    (32, 'A', 4, "Clear all artillery from the reef"),
+    (33, 'D', 2, "Show picto of old beauty queen to herself"),
+    (34, 'F', 4, "Given by Salvage Corp."),
+    (35, 'D', 1, "In Wind Temple"),
+    (36, 'E', 6, "Use Fire Arrows on iced chest"),
+    (37, 'B', 3, "Clear the Secret Cave"),
+    (38, 'D', 2, "Win the Auction (1st)"),
+    (39, 'F', 2, "In Dragon Roost Cavern"),
+    (40, 'D', 6, "Clear the Platforms"),
+    (41, 'B', 6, "Clear the artillery from the reef")
+;
+
+-- Helpful Queries
+-- SELECT `latitude`, `longitude`, `task` FROM `HeartPiece`;
+
+-- SELECT `name`, `latitude`, `longitude`, `details`,
+--     CASE WHEN required THEN '' ELSE 'Optional' END as "required"
+-- FROM `Item`;
+
+-- SELECT `latitude`, `longitude`, `number`, `details` FROM `TreasureChart`;
