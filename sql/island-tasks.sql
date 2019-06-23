@@ -1,10 +1,11 @@
-.width 24 2 2 2 2 %
+.width 24 2 2 2 2 2 %
 SELECT
     `IslandLocation`.`name`,
     `Location`.`coordinate`,
     SUBSTR('00' || `HeartPieceLocation`.`HeartPieces`, -2, 2) AS "HP",
     SUBSTR('00' || `TreasureChartLocation`.`TreasureCharts`, -2, 2) AS "TC",
-    SUBSTR('00' || `ItemLocation`.`Items`, -2, 2) AS "XI"
+    SUBSTR('00' || `RequiredItemLocation`.`Items`, -2, 2) AS "RI",
+    SUBSTR('00' || `OptionalItemLocation`.`Items`, -2, 2) AS "OI"
 
 FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
     FROM `Latitude` CROSS JOIN `Longitude`
@@ -68,8 +69,24 @@ LEFT JOIN (SELECT
     LEFT JOIN `Item` ON
         `Location`.`coordinate` = (CASE WHEN `Item`.`latitude`||`Item`.`longitude` IS NULL THEN
             "~~" ELSE `Item`.`latitude`||`Item`.`longitude` END)
+    WHERE `Item`.`required` = 1
     GROUP BY
-        `Location`.`coordinate`) AS `ItemLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `RequiredItemLocation` USING(`coordinate`)
+
+LEFT JOIN (SELECT
+        `Location`.`coordinate`,
+        CASE WHEN `Item`.`name` IS NOT NULL THEN
+            COUNT(`Item`.`name`) ELSE NULL END AS "Items"
+    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
+        FROM `Latitude` CROSS JOIN `Longitude`
+        UNION ALL
+        SELECT "~~" AS "coordinate") AS "Location"
+    LEFT JOIN `Item` ON
+        `Location`.`coordinate` = (CASE WHEN `Item`.`latitude`||`Item`.`longitude` IS NULL THEN
+            "~~" ELSE `Item`.`latitude`||`Item`.`longitude` END)
+    WHERE `Item`.`required` = 0
+    GROUP BY
+        `Location`.`coordinate`) AS `OptionalItemLocation` USING(`coordinate`)
 
 GROUP BY
     `Location`.`coordinate`;
