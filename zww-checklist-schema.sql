@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `HeartContainer`;
 DROP TABLE IF EXISTS `HeartPiece`;
 DROP TABLE IF EXISTS `Item`;
 DROP TABLE IF EXISTS `TreasureChart`;
+DROP TABLE IF EXISTS `TriforceChart`;
 
 --------------------
 -- Map Coordinates
@@ -305,6 +306,32 @@ INSERT INTO `TreasureChart` (
     (39, 'F', 2, "In Dragon Roost Cavern"),
     (40, 'D', 6, "Clear the Platforms"),
     (41, 'B', 6, "Clear the artillery from the reef")
+;
+
+-- Triforce Charts
+--------------------
+CREATE TABLE IF NOT EXISTS `TriforceChart`(
+    `number` INTEGER PRIMARY KEY NOT NULL,
+    `latitude` CHAR(1),
+    `longitude` UNSIGNED TINYINT(1),
+    `details` VARCHAR(255),
+        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
+        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+);
+CREATE INDEX `triforce_chart_coordinate` ON
+    `TriforceChart`(`latitude` || `longitude`);
+
+INSERT INTO `TriforceChart` (
+    `number`, `latitude`, `longitude`, `details`
+) VALUES
+    (01, 'B', 5, "Inside the ""Secret Cave"""),
+    (02, 'E', 5, "Clear the Secret Cave (fireplace"),
+    (03, 'G', 5, "Use Seagull to hit 5 switchs; In Secret Cave"),
+    (04, NULL, NULL, "Clear the Ghost Ship (G7,G3,B4,E1,A6,F5,C2)"),
+    (05, 'A', 5, "Defeat Golden Cannon Boat; light ring"),
+    (06, 'B', 7, "Clear the Secret Cave (level 30)"),
+    (07, 'C', 5, "Clear the Secret Cave"),
+    (08, 'G', 1, "Clear the Secret Cave")
 ;
 
 END;
