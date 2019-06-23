@@ -4,6 +4,7 @@ BEGIN;
 PRAGMA foreign_keys = ON;
 
 DROP TABLE IF EXISTS `Island`;
+DROP TABLE IF EXISTS `HeartContainer`;
 DROP TABLE IF EXISTS `HeartPiece`;
 DROP TABLE IF EXISTS `Item`;
 DROP TABLE IF EXISTS `TreasureChart`;
@@ -102,6 +103,30 @@ INSERT INTO `Island` (
     ("Bird's Peak Rock",         'G', 5),
     ("Cliff Plateau Isles",      'G', 6),
     ("Five-Star Isles",          'G', 7)
+;
+
+-- Heart Containers
+--------------------
+CREATE TABLE IF NOT EXISTS `HeartContainer`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `latitude` CHAR(1),
+    `longitude` UNSIGNED TINYINT(1),
+    `details` VARCHAR(255),
+        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
+        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+);
+CREATE INDEX `heart_container_coordinate` ON
+    `HeartContainer`(`latitude` || `longitude`);
+
+INSERT INTO `HeartContainer` (
+    `latitude`, `longitude`, `details`
+) VALUES
+    ('F', 2, "Dragon Roost Cavern"),
+    ('F', 6, "Forbidden Woods"),
+    ('E', 4, "Tower of the Gods"),
+    ('A', 1, "2nd visit"),
+    ('C', 7, "Earth Temple"),
+    ('D', 1, "Wind Temple")
 ;
 
 -- Heart Pieces

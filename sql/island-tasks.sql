@@ -1,7 +1,8 @@
-.width 24 2 2 2 2 2 %
+.width 24 2 2 2 2 2 2 %
 SELECT
     `IslandLocation`.`name`,
     `Location`.`coordinate`,
+    SUBSTR('00' || `HeartContainerLocation`.`HeartContainers`, -2, 2) AS "HC",
     SUBSTR('00' || `HeartPieceLocation`.`HeartPieces`, -2, 2) AS "HP",
     SUBSTR('00' || `TreasureChartLocation`.`TreasureCharts`, -2, 2) AS "TC",
     SUBSTR('00' || `RequiredItemLocation`.`Items`, -2, 2) AS "RI",
@@ -29,6 +30,20 @@ LEFT JOIN (SELECT
             "~~" ELSE `Island`.`latitude`||`Island`.`longitude` END)
     GROUP BY
         `Location`.`coordinate`) AS `IslandLocation` USING(`coordinate`)
+
+LEFT JOIN (SELECT
+        `Location`.`coordinate`,
+        CASE WHEN `HeartContainer`.`id` IS NOT NULL THEN
+            COUNT(`HeartContainer`.`id`) ELSE NULL END AS "HeartContainers"
+    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
+        FROM `Latitude` CROSS JOIN `Longitude`
+        UNION ALL
+        SELECT "~~" AS "coordinate") AS "Location"
+    LEFT JOIN `HeartContainer` ON
+        `Location`.`coordinate` = (CASE WHEN `HeartContainer`.`latitude`||`HeartContainer`.`longitude` IS NULL THEN
+            "~~" ELSE `HeartContainer`.`latitude`||`HeartContainer`.`longitude` END)
+    GROUP BY
+        `Location`.`coordinate`) AS `HeartContainerLocation` USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
