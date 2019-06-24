@@ -80,11 +80,11 @@ CREATE UNIQUE INDEX `island_location` ON
 INSERT INTO `Island` (
     `name`, `location`
 ) VALUES
-    ("various",     (SELECT
-                        `Location`.`coordinate`
-                    FROM `Location`
-                    WHERE `latitude`  IS NULL AND
-                          `longitude` IS NULL)),
+    -- ("various",     (SELECT
+    --                     `Location`.`coordinate`
+    --                 FROM `Location`
+    --                 WHERE `latitude`  IS NULL AND
+    --                       `longitude` IS NULL)),
 
     ("Forsaken Fortress",        'A1'),
     ("Four-Eye Reef",            'A2'),

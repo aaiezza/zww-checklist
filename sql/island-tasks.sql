@@ -9,18 +9,17 @@ SELECT
     SUBSTR('00' || `TreasureChartLocation`.`TreasureCharts`, -2, 2) AS "TC",
     SUBSTR('00' || `TriforceChartLocation`.`TriforceCharts`, -2, 2) AS "TR"
 
-FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-    FROM `Latitude` CROSS JOIN `Longitude`
-    UNION ALL
-    SELECT "~~" AS "coordinate") AS "Location"
+FROM `Location`
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        `Island`.`name` AS "name"
+        CASE WHEN `Island`.`name` IS NULL THEN
+            'various' ELSE `Island`.`name` END AS "name"
     FROM `Location` LEFT JOIN `Island` ON
         `Location`.`coordinate` = `Island`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `IslandLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `IslandLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
@@ -30,7 +29,8 @@ LEFT JOIN (SELECT
     LEFT JOIN `HeartContainer` ON
         `Location`.`coordinate` = `HeartContainer`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `HeartContainerLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `HeartContainerLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
