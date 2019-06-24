@@ -283,59 +283,57 @@ INSERT INTO `Item` (
 --------------------
 CREATE TABLE IF NOT EXISTS `TreasureChart`(
     `number` INTEGER PRIMARY KEY NOT NULL,
-    `latitude` CHAR(1),
-    `longitude` UNSIGNED TINYINT(1),
-    `details` VARCHAR(255),
-        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
-        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+    `location` CHAR(1) NOT NULL,
+    `details` VARCHAR(255) NOT NULL,
+        FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
-CREATE INDEX `treasure_chart_coordinate` ON
-    `TreasureChart`(`latitude` || `longitude`);
+CREATE INDEX `treasure_chart_location` ON
+    `TreasureChart`(`location`);
 
 INSERT INTO `TreasureChart` (
-    `number`, `latitude`, `longitude`, `details`
+    `number`, `location`, `details`
 ) VALUES
-    (01, 'F', 6, "In Forbidden Woods"),
-    (02, 'D', 2, "Give Maggie's Father 20 Skull Necklaces"),
-    (03, 'F', 6, "Small island outside Forest Haven, Deku Leaf"),
-    (04, 'B', 3, "Beedle Special Shop (900 Rupees)"),
-    (05, 'D', 1, "In Wind Temple"),
-    (06, 'E', 4, "In Tower of the Gods"),
-    (07, 'D', 2, "Win the Zee Fleet mini-game (2nd)"),
-    (08, 'A', 7, "Clear the Secret Cave"),
-    (09, 'E', 1, "Clear the Submarine"),
-    (10, 'E', 1, "Sitting on the island"),
-    (11, 'F', 2, "In Dragon Roost Cavern"),
-    (12, 'C', 7, "In Earth Temple"),
-    (13, 'D', 7, "Clear the artillery from the reef"),
-    (14, 'C', 7, "Clear the Submarine"),
-    (15, 'F', 6, "In Forbidden Woods"),
-    (16, 'F', 1, "Clear the Platforms"),
-    (17, 'C', 2, "Win the Cannon Shoot mini-game (2nd)"),
-    (18, 'D', 2, "Win the Auction (2nd)"),
-    (19, 'A', 2, "Clear all artillery from the reef"),
-    (20, 'C', 7, "In Earth Temple"),
-    (21, 'C', 4, "Clear all artillery from the reef"),
-    (22, 'C', 1, "Clear the Submarine"),
-    (23, 'D', 2, "Win the Zee Fleet mini-game (3rd)"),
-    (24, 'D', 2, "Show Lenzo & friend picto to gossip ladies"),
-    (25, 'G', 6, "Use Secret Cave to reach it on high cliff"),
-    (26, 'D', 4, "Clear all artillery from the reef"),
-    (27, 'E', 5, "On top of the cliff"),
-    (28, 'A', 7, "Finish the ""Golf"" game with the Boko Nuts"),
-    (29, 'D', 2, "Secret room in Lenzo's house"),
-    (30, 'E', 4, "In Tower of the Gods"),
-    (31, 'D', 2, "Show full moon picto to man on steps"),
-    (32, 'A', 4, "Clear all artillery from the reef"),
-    (33, 'D', 2, "Show picto of old beauty queen to herself"),
-    (34, 'F', 4, "Given by Salvage Corp."),
-    (35, 'D', 1, "In Wind Temple"),
-    (36, 'E', 6, "Use Fire Arrows on iced chest"),
-    (37, 'B', 3, "Clear the Secret Cave"),
-    (38, 'D', 2, "Win the Auction (1st)"),
-    (39, 'F', 2, "In Dragon Roost Cavern"),
-    (40, 'D', 6, "Clear the Platforms"),
-    (41, 'B', 6, "Clear the artillery from the reef")
+    (01, 'F6', "In Forbidden Woods"),
+    (02, 'D2', "Give Maggie's Father 20 Skull Necklaces"),
+    (03, 'F6', "Small island outside Forest Haven, Deku Leaf"),
+    (04, 'B3', "Beedle Special Shop (900 Rupees)"),
+    (05, 'D1', "In Wind Temple"),
+    (06, 'E4', "In Tower of the Gods"),
+    (07, 'D2', "Win the Zee Fleet mini-game (2nd)"),
+    (08, 'A7', "Clear the Secret Cave"),
+    (09, 'E1', "Clear the Submarine"),
+    (10, 'E1', "Sitting on the island"),
+    (11, 'F2', "In Dragon Roost Cavern"),
+    (12, 'C7', "In Earth Temple"),
+    (13, 'D7', "Clear the artillery from the reef"),
+    (14, 'C7', "Clear the Submarine"),
+    (15, 'F6', "In Forbidden Woods"),
+    (16, 'F1', "Clear the Platforms"),
+    (17, 'C2', "Win the Cannon Shoot mini-game (2nd)"),
+    (18, 'D2', "Win the Auction (2nd)"),
+    (19, 'A2', "Clear all artillery from the reef"),
+    (20, 'C7', "In Earth Temple"),
+    (21, 'C4', "Clear all artillery from the reef"),
+    (22, 'C1', "Clear the Submarine"),
+    (23, 'D2', "Win the Zee Fleet mini-game (3rd)"),
+    (24, 'D2', "Show Lenzo & friend picto to gossip ladies"),
+    (25, 'G6', "Use Secret Cave to reach it on high cliff"),
+    (26, 'D4', "Clear all artillery from the reef"),
+    (27, 'E5', "On top of the cliff"),
+    (28, 'A7', "Finish the ""Golf"" game with the Boko Nuts"),
+    (29, 'D2', "Secret room in Lenzo's house"),
+    (30, 'E4', "In Tower of the Gods"),
+    (31, 'D2', "Show full moon picto to man on steps"),
+    (32, 'A4', "Clear all artillery from the reef"),
+    (33, 'D2', "Show picto of old beauty queen to herself"),
+    (34, 'F4', "Given by Salvage Corp."),
+    (35, 'D1', "In Wind Temple"),
+    (36, 'E6', "Use Fire Arrows on iced chest"),
+    (37, 'B3', "Clear the Secret Cave"),
+    (38, 'D2', "Win the Auction (1st)"),
+    (39, 'F2', "In Dragon Roost Cavern"),
+    (40, 'D6', "Clear the Platforms"),
+    (41, 'B6', "Clear the artillery from the reef")
 ;
 
 -- Triforce Charts

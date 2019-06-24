@@ -71,15 +71,12 @@ LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
             COUNT(`TreasureChart`.`number`) ELSE NULL END AS "TreasureCharts"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `TreasureChart` ON
-        `Location`.`coordinate` = (CASE WHEN `TreasureChart`.`latitude`||`TreasureChart`.`longitude` IS NULL THEN
-            "~~" ELSE `TreasureChart`.`latitude`||`TreasureChart`.`longitude` END)
+        `Location`.`coordinate` = `TreasureChart`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `TreasureChartLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `TreasureChartLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
