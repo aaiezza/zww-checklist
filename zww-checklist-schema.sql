@@ -148,7 +148,7 @@ INSERT INTO `Island` (
 CREATE TABLE IF NOT EXISTS `HeartContainer`(
     `id` INTEGER PRIMARY KEY NOT NULL,
     `location` CHAR(2) NOT NULL,
-    `details` VARCHAR(255),
+    `details` VARCHAR(255) NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
 CREATE INDEX `heart_container_location` ON
@@ -169,62 +169,60 @@ INSERT INTO `HeartContainer` (
 --------------------
 CREATE TABLE IF NOT EXISTS `HeartPiece`(
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `latitude` CHAR(1),
-    `longitude` UNSIGNED TINYINT(1),
-    `task` VARCHAR(255),
-        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
-        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+    `location` CHAR(2) NOT NULL,
+    `task` VARCHAR(255) NOT NULL,
+        FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
-CREATE INDEX `heart_piece_coordinate` ON
-    `HeartPiece`(`latitude` || `longitude`);
+CREATE INDEX `heart_piece_location` ON
+    `HeartPiece`(`location`);
 
 INSERT INTO `HeartPiece` (
-    `latitude`, `longitude`, `task`
+    `location`, `task`
 ) VALUES
-    ('A', 1, "Locked in a jail cell; Use button to open door"),
-    ('A', 4, "Use Treasure Chart 38"),
-    ('A', 5, "Use Seagull to hit switch to put out flames"),
-    ('A', 6, "Use Treasure Chart 23"),
-    ('B', 1, "Clear the Secret Cave"),
-    ('B', 3, "950 Rupees at Beedle's Shop Ship"),
-    ('B', 3, "Use Treasure Chart 2"),
-    ('B', 3, "Defeat Cannon Boats and get from Light Ring"),
-    ('B', 4, "Use Deku Leaf from spiral island to ledge"),
-    ('B', 4, "Give Traveling Merchant a Shop Guru Statue"),
-    ('B', 7, "Hit Orca 500 times"),
-    ('B', 7, "Carry large pig to black dirt and use bait"),
-    ('B', 7, "Clear the Secret Cave (all 50 floors)"),
-    ('C', 2, "Win the Cannon Shoot mini-game (1st)"),
-    ('C', 3, "Defeat the Big Octo (12 eyes)"),
-    ('C', 5, "Destroy th Cannons on the Platform"),
-    ('C', 7, "Use Seagull to fetch from top of mountain"),
-    ('D', 2, "Win the hide-and-seek game with the kids"),
-    ('D', 2, "Win the Zee Fleet mini-game (1st)"),
-    ('D', 2, "Get the two people to start datig"),
-    ('D', 2, "Win the Auction (3rd item)"),
-    ('D', 2, "Decorate the town and talk to man on bench"),
-    ('D', 2, "Light the lighthouse; Talk to operator"),
-    ('D', 2, "Light the lighthouse; Chest on small island"),
-    ('D', 2, "Give Moe's letter to Maggie"),
-    ('D', 4, "Clear the Submarine"),
-    ('D', 6, "Use Treasure Chart 4"),
-    ('E', 1, "Use Treasure Chart 11"),
-    ('E', 2, "Use Treasure Chart 30"),
-    ('E', 2, "At the back of the Turtle Dome Secret Cave"),
-    ('E', 7, "Use Treasure Chart 15"),
-    ('E', 7, "On the top of the block-puzzle mountain"),
-    ('F', 1, "Defeat the Big Octo (12 eyes)"),
-    ('F', 2, "Letter after defeating Kalle Demos"),
-    ('F', 2, "Letter after delivering part-timer's letter"),
-    ('F', 2, "Letter after give 20 Golden Feathers to guard"),
-    ('F', 5, "Clear the Secret Cave"),
-    ('F', 5, "Use Treasure Chart 20"),
-    ('F', 6, "Complete the Wilted Deku Tree side quest"),
-    ('F', 6, "Use Treasure Chart 31"),
-    ('G', 2, "Win the Bird-Man Contest mini-game"),
-    ('G', 4, "Use Treasure Chart 5"),
-    ('G', 7, "Clear the Submarine"),
-    ('G', 7, "Use Treasure Chart 33")
+    ('A1', "Locked in a jail cell; Use button to open door"),
+    ('A4', "Use Treasure Chart 38"),
+    ('A5', "Use Seagull to hit switch to put out flames"),
+    ('A6', "Use Treasure Chart 23"),
+    ('B1', "Clear the Secret Cave"),
+    ('B3', "950 Rupees at Beedle's Shop Ship"),
+    ('B3', "Use Treasure Chart 2"),
+    ('B3', "Defeat Cannon Boats and get from Light Ring"),
+    ('B4', "Use Deku Leaf from spiral island to ledge"),
+    ('B4', "Give Traveling Merchant a Shop Guru Statue"),
+    ('B7', "Hit Orca 500 times"),
+    ('B7', "Carry large pig to black dirt and use bait"),
+    ('B7', "Clear the Secret Cave (all 50 floors)"),
+    ('C2', "Win the Cannon Shoot mini-game (1st)"),
+    ('C3', "Defeat the Big Octo (12 eyes)"),
+    ('C5', "Destroy th Cannons on the Platform"),
+    ('C7', "Use Seagull to fetch from top of mountain"),
+    ('D2', "Win the hide-and-seek game with the kids"),
+    ('D2', "Win the Zee Fleet mini-game (1st)"),
+    ('D2', "Get the two people to start datig"),
+    ('D2', "Win the Auction (3rd item)"),
+    ('D2', "Decorate the town and talk to man on bench"),
+    ('D2', "Light the lighthouse; Talk to operator"),
+    ('D2', "Light the lighthouse; Chest on small island"),
+    ('D2', "Give Moe's letter to Maggie"),
+    ('D4', "Clear the Submarine"),
+    ('D6', "Use Treasure Chart 4"),
+    ('E1', "Use Treasure Chart 11"),
+    ('E2', "Use Treasure Chart 30"),
+    ('E2', "At the back of the Turtle Dome Secret Cave"),
+    ('E7', "Use Treasure Chart 15"),
+    ('E7', "On the top of the block-puzzle mountain"),
+    ('F1', "Defeat the Big Octo (12 eyes)"),
+    ('F2', "Letter after defeating Kalle Demos"),
+    ('F2', "Letter after delivering part-timer's letter"),
+    ('F2', "Letter after give 20 Golden Feathers to guard"),
+    ('F5', "Clear the Secret Cave"),
+    ('F5', "Use Treasure Chart 20"),
+    ('F6', "Complete the Wilted Deku Tree side quest"),
+    ('F6', "Use Treasure Chart 31"),
+    ('G2', "Win the Bird-Man Contest mini-game"),
+    ('G4', "Use Treasure Chart 5"),
+    ('G7', "Clear the Submarine"),
+    ('G7', "Use Treasure Chart 33")
 ;
 
 -- Items

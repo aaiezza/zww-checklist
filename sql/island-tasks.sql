@@ -36,15 +36,12 @@ LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `HeartPiece`.`id` IS NOT NULL THEN
             COUNT(`HeartPiece`.`id`) ELSE NULL END AS "HeartPieces"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `HeartPiece` ON
-        `Location`.`coordinate` = (CASE WHEN `HeartPiece`.`latitude`||`HeartPiece`.`longitude` IS NULL THEN
-            "~~" ELSE `HeartPiece`.`latitude`||`HeartPiece`.`longitude` END)
+        `Location`.`coordinate` = `HeartPiece`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `HeartPieceLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `HeartPieceLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
