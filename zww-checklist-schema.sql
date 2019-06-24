@@ -1,7 +1,6 @@
 -- Zelda Wind Waker Checklist
-BEGIN;
-
 PRAGMA foreign_keys = ON;
+BEGIN;
 
 DROP TABLE IF EXISTS `Island`;
 DROP TABLE IF EXISTS `HeartContainer`;
@@ -36,13 +35,18 @@ INSERT INTO `Longitude` ( `value` ) VALUES
 -- Location
 --------------------
 CREATE TABLE IF NOT EXISTS `Location`(
-    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `id` INTEGER PRIMARY KEY NOT NULL,
     `coordinate` CHAR(2) NOT NULL,
     `latitude` CHAR(1),
     `longitude` UNSIGNED TINYINT(1),
         FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
         FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
 );
+CREATE UNIQUE INDEX `location_coordinate` ON
+    `Location`(`coordinate`);
+CREATE UNIQUE INDEX `location_latitude_longitude` ON
+    `Location`(`latitude`, `longitude`);
+
 INSERT INTO `Location` (
     `id`, `coordinate`, `latitude`, `longitude`
 )
@@ -64,76 +68,71 @@ SELECT
 -- Island
 --------------------
 CREATE TABLE IF NOT EXISTS `Island`(
-    -- `id` INTEGER PRIMARY KEY NOT NULL,
     `name` VARCHAR(200) PRIMARY KEY NOT NULL,
-    `latitude` CHAR(1) NOT NULL,
-    `longitude` UNSIGNED TINYINT(1) NOT NULL,
-        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
-        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+    `location` CHAR(2) NOT NULL,
+        FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
-CREATE UNIQUE INDEX `island_coordinate` ON
-    `Island`(`latitude` || `longitude`);
-CREATE UNIQUE INDEX `island_name` ON
-    `Island`(`name`);
+CREATE UNIQUE INDEX `island_location` ON
+    `Island`(`location`);
 
 INSERT INTO `Island` (
-    `name`, `latitude`, `longitude`
+    `name`, `location`
 ) VALUES
-    ("Forsaken Fortress",        'A', 1),
-    ("Four-Eye Reef",            'A', 2),
-    ("Western Fairy Island",     'A', 3),
-    ("Three-Eye Reef",           'A', 4),
-    ("Needle Rock Isle",         'A', 5),
-    ("Diamond Steppe Island",    'A', 6),
-    ("Horseshoe Island",         'A', 7),
+    ("Forsaken Fortress",        'A1'),
+    ("Four-Eye Reef",            'A2'),
+    ("Western Fairy Island",     'A3'),
+    ("Three-Eye Reef",           'A4'),
+    ("Needle Rock Isle",         'A5'),
+    ("Diamond Steppe Island",    'A6'),
+    ("Horseshoe Island",         'A7'),
 
-    ("Star Island",              'B', 1),
-    ("Mother & Child Isles",     'B', 2),
-    ("Rock Spire Island",        'B', 3),
-    ("Greatfish Island",         'B', 4),
-    ("Islet of Steel",           'B', 5),
-    ("Five-Eye Reef",            'B', 6),
-    ("Outset Island",            'B', 7),
+    ("Star Island",              'B1'),
+    ("Mother & Child Isles",     'B2'),
+    ("Rock Spire Island",        'B3'),
+    ("Greatfish Island",         'B4'),
+    ("Islet of Steel",           'B5'),
+    ("Five-Eye Reef",            'B6'),
+    ("Outset Island",            'B7'),
 
-    ("Northern Fairy Island",    'C', 1),
-    ("Spectacle Island",         'C', 2),
-    ("Tingle Island",            'C', 3),
-    ("Cyclops Reef",             'C', 4),
-    ("Stone Watcher Island",     'C', 5),
-    ("Shark Island",             'C', 6),
-    ("Headstone Island",         'C', 7),
+    ("Northern Fairy Island",    'C1'),
+    ("Spectacle Island",         'C2'),
+    ("Tingle Island",            'C3'),
+    ("Cyclops Reef",             'C4'),
+    ("Stone Watcher Island",     'C5'),
+    ("Shark Island",             'C6'),
+    ("Headstone Island",         'C7'),
 
-    ("Gale Isle",                'D', 1),
-    ("Windfall Island",          'D', 2),
-    ("Northern Triangle Island", 'D', 3),
-    ("Six-Eye Reef",             'D', 4),
-    ("Southern Triangle Island", 'D', 5),
-    ("Southern Fairy Island",    'D', 6),
-    ("Two-Eye Reef",             'D', 7),
+    ("Gale Isle",                'D1'),
+    ("Windfall Island",          'D2'),
+    ("Northern Triangle Island", 'D3'),
+    ("Six-Eye Reef",             'D4'),
+    ("Southern Triangle Island", 'D5'),
+    ("Southern Fairy Island",    'D6'),
+    ("Two-Eye Reef",             'D7'),
 
-    ("Crescent Moon Island",     'E', 1),
-    ("Pawprint Isle",            'E', 2),
-    ("Eastern Fairy Island",     'E', 3),
-    ("Tower of the Gods",        'E', 4),
-    ("Private Oasis",            'E', 5),
-    ("Ice Ring Isle",            'E', 6),
-    ("Angular Isles",            'E', 7),
+    ("Crescent Moon Island",     'E1'),
+    ("Pawprint Isle",            'E2'),
+    ("Eastern Fairy Island",     'E3'),
+    ("Tower of the Gods",        'E4'),
+    ("Private Oasis",            'E5'),
+    ("Ice Ring Isle",            'E6'),
+    ("Angular Isles",            'E7'),
 
-    ("Seven-Star Isles",         'F', 1),
-    ("Dragon Roost Island",      'F', 2),
-    ("Fire Mountain",            'F', 3),
-    ("Eastern Triangle Island",  'F', 4),
-    ("Bomb Island",              'F', 5),
-    ("Forest Haven",             'F', 6),
-    ("Boating Course",           'F', 7),
+    ("Seven-Star Isles",         'F1'),
+    ("Dragon Roost Island",      'F2'),
+    ("Fire Mountain",            'F3'),
+    ("Eastern Triangle Island",  'F4'),
+    ("Bomb Island",              'F5'),
+    ("Forest Haven",             'F6'),
+    ("Boating Course",           'F7'),
 
-    ("Overlook Island",          'G', 1),
-    ("Flight Control Platform",  'G', 2),
-    ("Star Belt Archipelago",    'G', 3),
-    ("Thorned Fairy Island",     'G', 4),
-    ("Bird's Peak Rock",         'G', 5),
-    ("Cliff Plateau Isles",      'G', 6),
-    ("Five-Star Isles",          'G', 7)
+    ("Overlook Island",          'G1'),
+    ("Flight Control Platform",  'G2'),
+    ("Star Belt Archipelago",    'G3'),
+    ("Thorned Fairy Island",     'G4'),
+    ("Bird's Peak Rock",         'G5'),
+    ("Cliff Plateau Isles",      'G6'),
+    ("Five-Star Isles",          'G7')
 ;
 
 -- Heart Containers
