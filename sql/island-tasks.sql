@@ -17,18 +17,8 @@ FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         `Island`.`name` AS "name"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
-    LEFT JOIN (SELECT *
-        FROM `Island`
-        UNION ALL SELECT
-            'various' AS 'name',
-            NULL AS 'longitude',
-            NULL AS 'latitude') AS 'Island' ON
-        `Location`.`coordinate` = (CASE WHEN `Island`.`latitude`||`Island`.`longitude` IS NULL THEN
-            "~~" ELSE `Island`.`latitude`||`Island`.`longitude` END)
+    FROM `Location` LEFT JOIN `Island` ON
+        `Location`.`coordinate` = `Island`.`location`
     GROUP BY
         `Location`.`coordinate`) AS `IslandLocation` USING(`coordinate`)
 
@@ -36,13 +26,9 @@ LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `HeartContainer`.`id` IS NOT NULL THEN
             COUNT(`HeartContainer`.`id`) ELSE NULL END AS "HeartContainers"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `HeartContainer` ON
-        `Location`.`coordinate` = (CASE WHEN `HeartContainer`.`latitude`||`HeartContainer`.`longitude` IS NULL THEN
-            "~~" ELSE `HeartContainer`.`latitude`||`HeartContainer`.`longitude` END)
+        `Location`.`coordinate` = `HeartContainer`.`location`
     GROUP BY
         `Location`.`coordinate`) AS `HeartContainerLocation` USING(`coordinate`)
 

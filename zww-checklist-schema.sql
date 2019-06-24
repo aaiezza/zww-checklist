@@ -1,5 +1,7 @@
 -- Zelda Wind Waker Checklist
+
 PRAGMA foreign_keys = ON;
+
 BEGIN;
 
 DROP TABLE IF EXISTS `Island`;
@@ -70,7 +72,7 @@ SELECT
 CREATE TABLE IF NOT EXISTS `Island`(
     `name` VARCHAR(200) PRIMARY KEY NOT NULL,
     `location` CHAR(2) NOT NULL,
-        FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
+        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
 CREATE UNIQUE INDEX `island_location` ON
     `Island`(`location`);
@@ -78,6 +80,12 @@ CREATE UNIQUE INDEX `island_location` ON
 INSERT INTO `Island` (
     `name`, `location`
 ) VALUES
+    ("various",     (SELECT
+                        `Location`.`coordinate`
+                    FROM `Location`
+                    WHERE `latitude`  IS NULL AND
+                          `longitude` IS NULL)),
+
     ("Forsaken Fortress",        'A1'),
     ("Four-Eye Reef",            'A2'),
     ("Western Fairy Island",     'A3'),
@@ -139,24 +147,22 @@ INSERT INTO `Island` (
 --------------------
 CREATE TABLE IF NOT EXISTS `HeartContainer`(
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `latitude` CHAR(1),
-    `longitude` UNSIGNED TINYINT(1),
+    `location` CHAR(2) NOT NULL,
     `details` VARCHAR(255),
-        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
-        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
-CREATE INDEX `heart_container_coordinate` ON
-    `HeartContainer`(`latitude` || `longitude`);
+CREATE INDEX `heart_container_location` ON
+    `HeartContainer`(`location`);
 
 INSERT INTO `HeartContainer` (
-    `latitude`, `longitude`, `details`
+    `location`, `details`
 ) VALUES
-    ('F', 2, "Dragon Roost Cavern"),
-    ('F', 6, "Forbidden Woods"),
-    ('E', 4, "Tower of the Gods"),
-    ('A', 1, "2nd visit"),
-    ('C', 7, "Earth Temple"),
-    ('D', 1, "Wind Temple")
+    ('F2', "Dragon Roost Cavern"),
+    ('F6', "Forbidden Woods"),
+    ('E4', "Tower of the Gods"),
+    ('A1', "2nd visit"),
+    ('C7', "Earth Temple"),
+    ('D1', "Wind Temple")
 ;
 
 -- Heart Pieces
