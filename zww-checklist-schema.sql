@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS `Item`;
 DROP TABLE IF EXISTS `TreasureChart`;
 DROP TABLE IF EXISTS `TriforceChart`;
 
+DROP TABLE IF EXISTS `Location`;
+
 --------------------
 -- Map Coordinates
 --------------------
@@ -30,6 +32,34 @@ CREATE TABLE IF NOT EXISTS `Longitude`(
 );
 INSERT INTO `Longitude` ( `value` ) VALUES
     (1), (2), (3), (4), (5), (6), (7);
+
+-- Location
+--------------------
+CREATE TABLE IF NOT EXISTS `Location`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `coordinate` CHAR(2) NOT NULL,
+    `latitude` CHAR(1),
+    `longitude` UNSIGNED TINYINT(1),
+        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
+        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+);
+INSERT INTO `Location` (
+    `id`, `coordinate`, `latitude`, `longitude`
+)
+SELECT * FROM (SELECT
+    ROW_NUMBER() OVER() AS "id",
+    `Latitude`.`value`||`Longitude`.`value` AS "coordinate",
+    `Latitude`.`value` AS "latitude",
+    `Longitude`.`value` AS "longitude"
+FROM `Latitude` CROSS JOIN `Longitude`
+    ORDER BY `Latitude`.`value`, `Longitude`.`value`)
+UNION ALL
+SELECT
+    0    AS "id",
+    "~~" AS "coordinate",
+    NULL AS "latitude",
+    NULL AS "longitude"
+;
 
 -- Island
 --------------------
