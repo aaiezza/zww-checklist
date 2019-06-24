@@ -47,31 +47,25 @@ LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `Item`.`name` IS NOT NULL THEN
             COUNT(`Item`.`name`) ELSE NULL END AS "Items"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `Item` ON
-        `Location`.`coordinate` = (CASE WHEN `Item`.`latitude`||`Item`.`longitude` IS NULL THEN
-            "~~" ELSE `Item`.`latitude`||`Item`.`longitude` END)
+        `Location`.`coordinate` = `Item`.`location`
     WHERE `Item`.`required` = 1
     GROUP BY
-        `Location`.`coordinate`) AS `RequiredItemLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `RequiredItemLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `Item`.`name` IS NOT NULL THEN
             COUNT(`Item`.`name`) ELSE NULL END AS "Items"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `Item` ON
-        `Location`.`coordinate` = (CASE WHEN `Item`.`latitude`||`Item`.`longitude` IS NULL THEN
-            "~~" ELSE `Item`.`latitude`||`Item`.`longitude` END)
+        `Location`.`coordinate` = `Item`.`location`
     WHERE `Item`.`required` = 0
     GROUP BY
-        `Location`.`coordinate`) AS `OptionalItemLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `OptionalItemLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,

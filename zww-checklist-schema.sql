@@ -228,58 +228,55 @@ INSERT INTO `HeartPiece` (
 -- Items
 --------------------
 CREATE TABLE IF NOT EXISTS `Item`(
-    -- `id` INTEGER PRIMARY KEY NOT NULL,
     `name` VARCHAR(50) PRIMARY KEY NOT NULL,
-    `latitude` CHAR(1),
-    `longitude` UNSIGNED TINYINT(1),
-    `details` VARCHAR(255),
+    `location` CHAR(2) NOT NULL,
+    `details` VARCHAR(255) NOT NULL,
     `required` BOOLEAN DEFAULT 1 NOT NULL,
-        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
-        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+        FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
-CREATE INDEX `item_coordinate` ON
-    `Item`(`latitude` || `longitude`);
+CREATE INDEX `item_location` ON
+    `Item`(`location`);
 
 INSERT INTO `Item` (
-    `latitude`, `longitude`, `required`, `name`, `details`
+    `location`, `required`, `name`, `details`
 ) VALUES
-    ('B', 7, 1, "Telescope",              "Aryll"),
-    ('B', 7, 1, "Hero's Sword",           "Orca"),
-    ('B', 7, 1, "Hero's Sheild",          "Granny"),
-    ('B', 7, 1, "Spoils Bag",             "Tetra's Pirate Ship - Niko's Rope Challenge"),
-    ('A', 1, 1, "Pirate's Charm",         "Tetra"),
-    ('D', 2, 1, "Sail",                   "Zunari (80 Rupees)"),
-    ('D', 2, 0, "Tingle Tuner",           "Tingle"),
-    ('D', 2, 0, "Picto Box",              "Tingle's cell maze"),
-    ('F', 2, 1, "Wind Waker",             "The King of Red Lions"),
-    ('F', 2, 1, "Delivery Bag",           "Quill"),
-    ('F', 2, 1, "Bottle 1",               "Medli"),
-    ('F', 2, 1, "Grappling Hook",         "Dragon Roost Cavern"),
-    ('F', 2, 1, "Din's Pearl",            "Komali"),
-    ('F', 5, 0, "Bottle 2",               "Submarine"),
-    ('F', 6, 1, "Deku Leaf",              "Great Deku Tree"),
-    ('F', 6, 1, "Boomerang",              "Forbidden Woods"),
-    ('F', 6, 1, "Farore's Pearl",         "Great Deku Tree"),
-    ('D', 2, 1, "Bombs",                  "Tetra's Pirate Ship - Niko's Rope Challenge"),
-    ('B', 7, 1, "Nayru's Pearl",          "Jabun"),
-    ('E', 4, 1, "Hero's Bow",             "Tower of the Gods"),
-    ('E', 4, 1, "Master Sword",           "Hyrule Castle"),
-    ('A', 1, 1, "Skull Hammer",           "Phantom Ganon"),
-    ('B', 2, 1, "Fire & Ice Arrows",      "Fairy Queen"),
-    ('F', 3, 1, "Power Bracelets",        "Secret Cave"),
-    ('C', 7, 1, "Mirror Shield",          "Earth Temple"),
-    ('C', 7, 1, "Master Sword Restore 1", "Earth Temple"),
-    ('E', 6, 1, "Iron Boots",             "Secret Cave"),
-    ('D', 1, 1, "Hookshot",               "Wind Temple"),
-    ('D', 1, 1, "Master Sword Restore 2", "Wind Temple"),
-    (NULL, NULL, 1, "Bait Bag",           "Beedle Shop Ship"),
-    ('D', 2, 1, "Cabana Deed",            "Mrs. Marie (20 Joy Pendants)"),
-    (NULL, NULL, 1, "Triforce of Courage", "Triforce Chart x8"),
-    ('D', 2, 0, "Deluxe Picto Box",       "Lenzo"),
-    ('D', 2, 0, "Hero's Charm",           "Mrs. Marie (40 Joy Pendants)"),
-    ('B', 3, 0, "Bottle 3",               "Beedle Special Shop (500 Rupees)"),
-    ('D', 2, 0, "Magic Armor",            "Zunari (Exotic Flower)"),
-    ('D', 2, 0, "Bottle 4",               "Mila")
+    ('B7', 1, "Telescope",              "Aryll"),
+    ('B7', 1, "Hero's Sword",           "Orca"),
+    ('B7', 1, "Hero's Sheild",          "Granny"),
+    ('B7', 1, "Spoils Bag",             "Tetra's Pirate Ship - Niko's Rope Challenge"),
+    ('A1', 1, "Pirate's Charm",         "Tetra"),
+    ('D2', 1, "Sail",                   "Zunari (80 Rupees)"),
+    ('D2', 0, "Tingle Tuner",           "Tingle"),
+    ('D2', 0, "Picto Box",              "Tingle's cell maze"),
+    ('F2', 1, "Wind Waker",             "The King of Red Lions"),
+    ('F2', 1, "Delivery Bag",           "Quill"),
+    ('F2', 1, "Bottle 1",               "Medli"),
+    ('F2', 1, "Grappling Hook",         "Dragon Roost Cavern"),
+    ('F2', 1, "Din's Pearl",            "Komali"),
+    ('F5', 0, "Bottle 2",               "Submarine"),
+    ('F6', 1, "Deku Leaf",              "Great Deku Tree"),
+    ('F6', 1, "Boomerang",              "Forbidden Woods"),
+    ('F6', 1, "Farore's Pearl",         "Great Deku Tree"),
+    ('D2', 1, "Bombs",                  "Tetra's Pirate Ship - Niko's Rope Challenge"),
+    ('B7', 1, "Nayru's Pearl",          "Jabun"),
+    ('E4', 1, "Hero's Bow",             "Tower of the Gods"),
+    ('E4', 1, "Master Sword",           "Hyrule Castle"),
+    ('A1', 1, "Skull Hammer",           "Phantom Ganon"),
+    ('B2', 1, "Fire & Ice Arrows",      "Fairy Queen"),
+    ('F3', 1, "Power Bracelets",        "Secret Cave"),
+    ('C7', 1, "Mirror Shield",          "Earth Temple"),
+    ('C7', 1, "Master Sword Restore 1", "Earth Temple"),
+    ('E6', 1, "Iron Boots",             "Secret Cave"),
+    ('D1', 1, "Hookshot",               "Wind Temple"),
+    ('D1', 1, "Master Sword Restore 2", "Wind Temple"),
+    ('~~', 1, "Bait Bag",               "Beedle Shop Ship"),
+    ('D2', 1, "Cabana Deed",            "Mrs. Marie (20 Joy Pendants)"),
+    ('~~', 1, "Triforce of Courage",    "Triforce Chart x8"),
+    ('D2', 0, "Deluxe Picto Box",       "Lenzo"),
+    ('D2', 0, "Hero's Charm",           "Mrs. Marie (40 Joy Pendants)"),
+    ('B3', 0, "Bottle 3",               "Beedle Special Shop (500 Rupees)"),
+    ('D2', 0, "Magic Armor",            "Zunari (Exotic Flower)"),
+    ('D2', 0, "Bottle 4",               "Mila")
 ;
 
 -- Treasure Charts
