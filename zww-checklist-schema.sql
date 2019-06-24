@@ -340,26 +340,24 @@ INSERT INTO `TreasureChart` (
 --------------------
 CREATE TABLE IF NOT EXISTS `TriforceChart`(
     `number` INTEGER PRIMARY KEY NOT NULL,
-    `latitude` CHAR(1),
-    `longitude` UNSIGNED TINYINT(1),
-    `details` VARCHAR(255),
-        FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
-        FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
+    `location` CHAR(2) NOT NULL,
+    `details` VARCHAR(255) NOT NULL,
+        FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
-CREATE INDEX `triforce_chart_coordinate` ON
-    `TriforceChart`(`latitude` || `longitude`);
+CREATE INDEX `triforce_chart_location` ON
+    `TriforceChart`(`location`);
 
 INSERT INTO `TriforceChart` (
-    `number`, `latitude`, `longitude`, `details`
+    `number`, `location`, `details`
 ) VALUES
-    (01, 'B', 5, "Inside the ""Secret Cave"""),
-    (02, 'E', 5, "Clear the Secret Cave (fireplace"),
-    (03, 'G', 5, "Use Seagull to hit 5 switchs; In Secret Cave"),
-    (04, NULL, NULL, "Clear the Ghost Ship (G7,G3,B4,E1,A6,F5,C2)"),
-    (05, 'A', 5, "Defeat Golden Cannon Boat; light ring"),
-    (06, 'B', 7, "Clear the Secret Cave (level 30)"),
-    (07, 'C', 5, "Clear the Secret Cave"),
-    (08, 'G', 1, "Clear the Secret Cave")
+    (01, 'B5', "Inside the ""Secret Cave"""),
+    (02, 'E5', "Clear the Secret Cave (fireplace"),
+    (03, 'G5', "Use Seagull to hit 5 switchs; In Secret Cave"),
+    (04, '~~', "Clear the Ghost Ship (G7,G3,B4,E1,A6,F5,C2)"),
+    (05, 'A5', "Defeat Golden Cannon Boat; light ring"),
+    (06, 'B7', "Clear the Secret Cave (level 30)"),
+    (07, 'C5', "Clear the Secret Cave"),
+    (08, 'G1', "Clear the Secret Cave")
 ;
 
 END;

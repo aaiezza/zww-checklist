@@ -82,15 +82,12 @@ LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
             COUNT(`TriforceChart`.`number`) ELSE NULL END AS "TriforceCharts"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `TriforceChart` ON
-        `Location`.`coordinate` = (CASE WHEN `TriforceChart`.`latitude`||`TriforceChart`.`longitude` IS NULL THEN
-            "~~" ELSE `TriforceChart`.`latitude`||`TriforceChart`.`longitude` END)
+        `Location`.`coordinate` = `TriforceChart`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `TriforceChartLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `TriforceChartLocation`
+USING(`coordinate`)
 
 GROUP BY
     `Location`.`coordinate`;
