@@ -13,8 +13,7 @@ FROM `Location`
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        CASE WHEN `Island`.`name` IS NULL THEN
-            'various' ELSE `Island`.`name` END AS "name"
+        `Island`.`name`
     FROM `Location` LEFT JOIN `Island` ON
         `Location`.`coordinate` = `Island`.`location`
     GROUP BY
@@ -90,4 +89,53 @@ LEFT JOIN (SELECT
 USING(`coordinate`)
 
 GROUP BY
-    `Location`.`coordinate`;
+    `Location`.`coordinate`
+
+UNION ALL
+
+SELECT
+    "various" AS "name",
+    "~~" AS "coordinate",
+    (
+        SELECT
+            CASE WHEN `HeartContainer`.`id` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`HeartContainer`.`id`), -2, 2) ELSE NULL END
+        FROM `HeartContainer`
+        WHERE `HeartContainer`.`location` IS NULL
+    ) AS "HC",
+    (
+        SELECT
+            CASE WHEN `HeartPiece`.`id` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`HeartPiece`.`id`), -2, 2) ELSE NULL END
+        FROM `HeartPiece`
+        WHERE `HeartPiece`.`location` IS NULL
+    ) AS "HP",
+    (
+        SELECT
+            CASE WHEN `Item`.`name` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`Item`.`name`), -2, 2) ELSE NULL END
+        FROM `Item`
+        WHERE `Item`.`location` IS NULL AND `Item`.`required` = 1
+    ) AS "RI",
+    (
+        SELECT
+            CASE WHEN `Item`.`name` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`Item`.`name`), -2, 2) ELSE NULL END
+        FROM `Item`
+        WHERE `Item`.`location` IS NULL AND `Item`.`required` = 0
+    ) AS "OI",
+    (
+        SELECT
+            CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`TreasureChart`.`number`), -2, 2) ELSE NULL END
+        FROM `TreasureChart`
+        WHERE `TreasureChart`.`location` IS NULL
+    ) AS "TC",
+    (
+        SELECT
+            CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`TriforceChart`.`number`), -2, 2) ELSE NULL END
+        FROM `TriforceChart`
+        WHERE `TriforceChart`.`location` IS NULL
+    ) AS "TR";
+;

@@ -39,8 +39,8 @@ INSERT INTO `Longitude` ( `value` ) VALUES
 CREATE TABLE IF NOT EXISTS `Location`(
     `id` INTEGER PRIMARY KEY NOT NULL,
     `coordinate` CHAR(2) NOT NULL,
-    `latitude` CHAR(1),
-    `longitude` UNSIGNED TINYINT(1),
+    `latitude` CHAR(1) NOT NULL,
+    `longitude` UNSIGNED TINYINT(1) NOT NULL,
         FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
         FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`)
 );
@@ -52,19 +52,13 @@ CREATE UNIQUE INDEX `location_latitude_longitude` ON
 INSERT INTO `Location` (
     `id`, `coordinate`, `latitude`, `longitude`
 )
-SELECT * FROM (SELECT
+SELECT
     ROW_NUMBER() OVER() AS "id",
     `Latitude`.`value`||`Longitude`.`value` AS "coordinate",
     `Latitude`.`value` AS "latitude",
     `Longitude`.`value` AS "longitude"
 FROM `Latitude` CROSS JOIN `Longitude`
-    ORDER BY `Latitude`.`value`, `Longitude`.`value`)
-UNION ALL
-SELECT
-    0    AS "id",
-    "~~" AS "coordinate",
-    NULL AS "latitude",
-    NULL AS "longitude"
+    ORDER BY `Latitude`.`value`, `Longitude`.`value`
 ;
 
 -- Island
@@ -147,7 +141,7 @@ INSERT INTO `Island` (
 --------------------
 CREATE TABLE IF NOT EXISTS `HeartContainer`(
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2) NOT NULL,
+    `location` CHAR(2),
     `details` VARCHAR(255) NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
@@ -169,7 +163,7 @@ INSERT INTO `HeartContainer` (
 --------------------
 CREATE TABLE IF NOT EXISTS `HeartPiece`(
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2) NOT NULL,
+    `location` CHAR(2),
     `task` VARCHAR(255) NOT NULL,
         FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
@@ -229,7 +223,7 @@ INSERT INTO `HeartPiece` (
 --------------------
 CREATE TABLE IF NOT EXISTS `Item`(
     `name` VARCHAR(50) PRIMARY KEY NOT NULL,
-    `location` CHAR(2) NOT NULL,
+    `location` CHAR(2),
     `details` VARCHAR(255) NOT NULL,
     `required` BOOLEAN DEFAULT 1 NOT NULL,
         FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
@@ -269,9 +263,9 @@ INSERT INTO `Item` (
     ('E6', 1, "Iron Boots",             "Secret Cave"),
     ('D1', 1, "Hookshot",               "Wind Temple"),
     ('D1', 1, "Master Sword Restore 2", "Wind Temple"),
-    ('~~', 1, "Bait Bag",               "Beedle Shop Ship"),
+    (NULL, 1, "Bait Bag",               "Beedle Shop Ship"),
     ('D2', 1, "Cabana Deed",            "Mrs. Marie (20 Joy Pendants)"),
-    ('~~', 1, "Triforce of Courage",    "Triforce Chart x8"),
+    (NULL, 1, "Triforce of Courage",    "Triforce Chart x8"),
     ('D2', 0, "Deluxe Picto Box",       "Lenzo"),
     ('D2', 0, "Hero's Charm",           "Mrs. Marie (40 Joy Pendants)"),
     ('B3', 0, "Bottle 3",               "Beedle Special Shop (500 Rupees)"),
@@ -283,7 +277,7 @@ INSERT INTO `Item` (
 --------------------
 CREATE TABLE IF NOT EXISTS `TreasureChart`(
     `number` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(1) NOT NULL,
+    `location` CHAR(1),
     `details` VARCHAR(255) NOT NULL,
         FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
@@ -340,7 +334,7 @@ INSERT INTO `TreasureChart` (
 --------------------
 CREATE TABLE IF NOT EXISTS `TriforceChart`(
     `number` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2) NOT NULL,
+    `location` CHAR(2),
     `details` VARCHAR(255) NOT NULL,
         FOREIGN KEY (`location`)  REFERENCES `Location`(`coordinate`)
 );
@@ -353,7 +347,7 @@ INSERT INTO `TriforceChart` (
     (01, 'B5', "Inside the ""Secret Cave"""),
     (02, 'E5', "Clear the Secret Cave (fireplace"),
     (03, 'G5', "Use Seagull to hit 5 switchs; In Secret Cave"),
-    (04, '~~', "Clear the Ghost Ship (G7,G3,B4,E1,A6,F5,C2)"),
+    (04, NULL, "Clear the Ghost Ship (G7,G3,B4,E1,A6,F5,C2)"),
     (05, 'A5', "Defeat Golden Cannon Boat; light ring"),
     (06, 'B7', "Clear the Secret Cave (level 30)"),
     (07, 'C5', "Clear the Secret Cave"),
