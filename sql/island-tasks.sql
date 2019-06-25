@@ -9,114 +9,133 @@ SELECT
     SUBSTR('00' || `TreasureChartLocation`.`TreasureCharts`, -2, 2) AS "TC",
     SUBSTR('00' || `TriforceChartLocation`.`TriforceCharts`, -2, 2) AS "TR"
 
-FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-    FROM `Latitude` CROSS JOIN `Longitude`
-    UNION ALL
-    SELECT "~~" AS "coordinate") AS "Location"
+FROM `Location`
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        `Island`.`name` AS "name"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
-    LEFT JOIN (SELECT *
-        FROM `Island`
-        UNION ALL SELECT
-            'various' AS 'name',
-            NULL AS 'longitude',
-            NULL AS 'latitude') AS 'Island' ON
-        `Location`.`coordinate` = (CASE WHEN `Island`.`latitude`||`Island`.`longitude` IS NULL THEN
-            "~~" ELSE `Island`.`latitude`||`Island`.`longitude` END)
+        `Island`.`name`
+    FROM `Location` LEFT JOIN `Island` ON
+        `Location`.`coordinate` = `Island`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `IslandLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `IslandLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `HeartContainer`.`id` IS NOT NULL THEN
             COUNT(`HeartContainer`.`id`) ELSE NULL END AS "HeartContainers"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `HeartContainer` ON
-        `Location`.`coordinate` = (CASE WHEN `HeartContainer`.`latitude`||`HeartContainer`.`longitude` IS NULL THEN
-            "~~" ELSE `HeartContainer`.`latitude`||`HeartContainer`.`longitude` END)
+        `Location`.`coordinate` = `HeartContainer`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `HeartContainerLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `HeartContainerLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `HeartPiece`.`id` IS NOT NULL THEN
             COUNT(`HeartPiece`.`id`) ELSE NULL END AS "HeartPieces"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `HeartPiece` ON
-        `Location`.`coordinate` = (CASE WHEN `HeartPiece`.`latitude`||`HeartPiece`.`longitude` IS NULL THEN
-            "~~" ELSE `HeartPiece`.`latitude`||`HeartPiece`.`longitude` END)
+        `Location`.`coordinate` = `HeartPiece`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `HeartPieceLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `HeartPieceLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `Item`.`name` IS NOT NULL THEN
             COUNT(`Item`.`name`) ELSE NULL END AS "Items"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `Item` ON
-        `Location`.`coordinate` = (CASE WHEN `Item`.`latitude`||`Item`.`longitude` IS NULL THEN
-            "~~" ELSE `Item`.`latitude`||`Item`.`longitude` END)
+        `Location`.`coordinate` = `Item`.`location`
     WHERE `Item`.`required` = 1
     GROUP BY
-        `Location`.`coordinate`) AS `RequiredItemLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `RequiredItemLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `Item`.`name` IS NOT NULL THEN
             COUNT(`Item`.`name`) ELSE NULL END AS "Items"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `Item` ON
-        `Location`.`coordinate` = (CASE WHEN `Item`.`latitude`||`Item`.`longitude` IS NULL THEN
-            "~~" ELSE `Item`.`latitude`||`Item`.`longitude` END)
+        `Location`.`coordinate` = `Item`.`location`
     WHERE `Item`.`required` = 0
     GROUP BY
-        `Location`.`coordinate`) AS `OptionalItemLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `OptionalItemLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
             COUNT(`TreasureChart`.`number`) ELSE NULL END AS "TreasureCharts"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `TreasureChart` ON
-        `Location`.`coordinate` = (CASE WHEN `TreasureChart`.`latitude`||`TreasureChart`.`longitude` IS NULL THEN
-            "~~" ELSE `TreasureChart`.`latitude`||`TreasureChart`.`longitude` END)
+        `Location`.`coordinate` = `TreasureChart`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `TreasureChartLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `TreasureChartLocation`
+USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
         CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
             COUNT(`TriforceChart`.`number`) ELSE NULL END AS "TriforceCharts"
-    FROM (SELECT `Latitude`.`value`||`Longitude`.`value` AS "coordinate"
-        FROM `Latitude` CROSS JOIN `Longitude`
-        UNION ALL
-        SELECT "~~" AS "coordinate") AS "Location"
+    FROM `Location`
     LEFT JOIN `TriforceChart` ON
-        `Location`.`coordinate` = (CASE WHEN `TriforceChart`.`latitude`||`TriforceChart`.`longitude` IS NULL THEN
-            "~~" ELSE `TriforceChart`.`latitude`||`TriforceChart`.`longitude` END)
+        `Location`.`coordinate` = `TriforceChart`.`location`
     GROUP BY
-        `Location`.`coordinate`) AS `TriforceChartLocation` USING(`coordinate`)
+        `Location`.`coordinate`) AS `TriforceChartLocation`
+USING(`coordinate`)
 
 GROUP BY
-    `Location`.`coordinate`;
+    `Location`.`coordinate`
+
+UNION ALL
+
+SELECT
+    "various" AS "name",
+    "~~" AS "coordinate",
+    (
+        SELECT
+            CASE WHEN `HeartContainer`.`id` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`HeartContainer`.`id`), -2, 2) ELSE NULL END
+        FROM `HeartContainer`
+        WHERE `HeartContainer`.`location` IS NULL
+    ) AS "HC",
+    (
+        SELECT
+            CASE WHEN `HeartPiece`.`id` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`HeartPiece`.`id`), -2, 2) ELSE NULL END
+        FROM `HeartPiece`
+        WHERE `HeartPiece`.`location` IS NULL
+    ) AS "HP",
+    (
+        SELECT
+            CASE WHEN `Item`.`name` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`Item`.`name`), -2, 2) ELSE NULL END
+        FROM `Item`
+        WHERE `Item`.`location` IS NULL AND `Item`.`required` = 1
+    ) AS "RI",
+    (
+        SELECT
+            CASE WHEN `Item`.`name` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`Item`.`name`), -2, 2) ELSE NULL END
+        FROM `Item`
+        WHERE `Item`.`location` IS NULL AND `Item`.`required` = 0
+    ) AS "OI",
+    (
+        SELECT
+            CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`TreasureChart`.`number`), -2, 2) ELSE NULL END
+        FROM `TreasureChart`
+        WHERE `TreasureChart`.`location` IS NULL
+    ) AS "TC",
+    (
+        SELECT
+            CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`TriforceChart`.`number`), -2, 2) ELSE NULL END
+        FROM `TriforceChart`
+        WHERE `TriforceChart`.`location` IS NULL
+    ) AS "TR";
+;
