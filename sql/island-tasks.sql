@@ -68,22 +68,24 @@ USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
-            COUNT(`TreasureChart`.`number`) ELSE NULL END AS "TreasureCharts"
+        CASE WHEN `Chart`.`number` IS NOT NULL THEN
+            COUNT(`Chart`.`number`) ELSE NULL END AS "TreasureCharts"
     FROM `Location`
-    LEFT JOIN `TreasureChart` ON
-        `Location`.`coordinate` = `TreasureChart`.`location`
+    LEFT JOIN `Chart` ON
+        `Location`.`coordinate` = `Chart`.`location`
+    WHERE `Chart`.`type` = 'Treasure'
     GROUP BY
         `Location`.`coordinate`) AS `TreasureChartLocation`
 USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
-            COUNT(`TriforceChart`.`number`) ELSE NULL END AS "TriforceCharts"
+        CASE WHEN `Chart`.`number` IS NOT NULL THEN
+            COUNT(`Chart`.`number`) ELSE NULL END AS "TriforceCharts"
     FROM `Location`
-    LEFT JOIN `TriforceChart` ON
-        `Location`.`coordinate` = `TriforceChart`.`location`
+    LEFT JOIN `Chart` ON
+        `Location`.`coordinate` = `Chart`.`location`
+    WHERE `Chart`.`type` = 'Triforce'
     GROUP BY
         `Location`.`coordinate`) AS `TriforceChartLocation`
 USING(`coordinate`)
@@ -126,16 +128,16 @@ SELECT
     ) AS "OI",
     (
         SELECT
-            CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
-                SUBSTR('00' || COUNT(`TreasureChart`.`number`), -2, 2) ELSE NULL END
-        FROM `TreasureChart`
-        WHERE `TreasureChart`.`location` IS NULL
+            CASE WHEN `Chart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`Chart`.`number`), -2, 2) ELSE NULL END
+        FROM `Chart`
+        WHERE `Chart`.`location` IS NULL AND `Chart`.`type` = 'Treasure'
     ) AS "TC",
     (
         SELECT
-            CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
-                SUBSTR('00' || COUNT(`TriforceChart`.`number`), -2, 2) ELSE NULL END
-        FROM `TriforceChart`
-        WHERE `TriforceChart`.`location` IS NULL
+            CASE WHEN `Chart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`Chart`.`number`), -2, 2) ELSE NULL END
+        FROM `Chart`
+        WHERE `Chart`.`location` IS NULL AND `Chart`.`type` = 'Triforce'
     ) AS "TR";
 ;
