@@ -1,4 +1,4 @@
-.width 24 2 2 2 2 2 2 2 %
+.width 24 2 2 2 2 2 2 2 2 %
 SELECT
     `IslandLocation`.`name`,
     `Location`.`coordinate`,
@@ -7,7 +7,8 @@ SELECT
     SUBSTR('00' || `RequiredItemLocation`.`Items`, -2, 2) AS "RI",
     SUBSTR('00' || `OptionalItemLocation`.`Items`, -2, 2) AS "OI",
     SUBSTR('00' || `TreasureChartLocation`.`TreasureCharts`, -2, 2) AS "TC",
-    SUBSTR('00' || `TriforceChartLocation`.`TriforceCharts`, -2, 2) AS "TR"
+    SUBSTR('00' || `TriforceChartLocation`.`TriforceCharts`, -2, 2) AS "TR",
+    SUBSTR('00' || `SunkenTreasureLocation`.`SunkenTreasures`, -2, 2) AS "ST"
 
 FROM `Location`
 
@@ -90,6 +91,17 @@ LEFT JOIN (SELECT
         `Location`.`coordinate`) AS `TriforceChartLocation`
 USING(`coordinate`)
 
+LEFT JOIN (SELECT
+        `Location`.`coordinate`,
+        CASE WHEN `SunkenTreasure`.`number` IS NOT NULL THEN
+            COUNT(`SunkenTreasure`.`number`) ELSE NULL END AS "SunkenTreasures"
+    FROM `Location`
+    LEFT JOIN `SunkenTreasure` ON
+        `Location`.`coordinate` = `SunkenTreasure`.`location`
+    GROUP BY
+        `Location`.`coordinate`) AS `SunkenTreasureLocation`
+USING(`coordinate`)
+
 GROUP BY
     `Location`.`coordinate`
 
@@ -139,5 +151,12 @@ SELECT
                 SUBSTR('00' || COUNT(`Chart`.`number`), -2, 2) ELSE NULL END
         FROM `Chart`
         WHERE `Chart`.`location` IS NULL AND `Chart`.`type` = 'Triforce'
-    ) AS "TR";
+    ) AS "TR",
+    (
+        SELECT
+            CASE WHEN `SunkenTreasure`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`SunkenTreasure`.`number`), -2, 2) ELSE NULL END
+        FROM `SunkenTreasure`
+        WHERE `SunkenTreasure`.`location` IS NULL
+    ) AS "ST";
 ;

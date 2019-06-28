@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS `HeartPiece`;
 DROP TABLE IF EXISTS `Item`;
 DROP TABLE IF EXISTS `Chart`;
 DROP TABLE IF EXISTS `ChartType`;
+DROP TABLE IF EXISTS `SunkenTreasure`;
 
 DROP TABLE IF EXISTS `Location`;
 
@@ -64,7 +65,7 @@ FROM `Latitude` CROSS JOIN `Longitude`
 -- Island
 --------------------
 CREATE TABLE IF NOT EXISTS `Island`(
-    `name` VARCHAR(200) PRIMARY KEY NOT NULL,
+    `name` VARCHAR(100) PRIMARY KEY NOT NULL,
     `location` CHAR(2) NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
@@ -139,7 +140,7 @@ INSERT INTO `Island` (
 CREATE TABLE IF NOT EXISTS `HeartContainer`(
     `id` INTEGER PRIMARY KEY NOT NULL,
     `location` CHAR(2),
-    `details` VARCHAR(255) NOT NULL,
+    `details` VARCHAR(100) NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
 CREATE INDEX `heart_container_location` ON
@@ -161,7 +162,7 @@ INSERT INTO `HeartContainer` (
 CREATE TABLE IF NOT EXISTS `HeartPiece`(
     `id` INTEGER PRIMARY KEY NOT NULL,
     `location` CHAR(2),
-    `task` VARCHAR(255) NOT NULL,
+    `task` VARCHAR(100) NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
 CREATE INDEX `heart_piece_location` ON
@@ -221,7 +222,7 @@ INSERT INTO `HeartPiece` (
 CREATE TABLE IF NOT EXISTS `Item`(
     `name` VARCHAR(50) PRIMARY KEY NOT NULL,
     `location` CHAR(2),
-    `details` VARCHAR(255) NOT NULL,
+    `details` VARCHAR(100) NOT NULL,
     `required` BOOLEAN DEFAULT 1 NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
 );
@@ -284,9 +285,9 @@ INSERT INTO `ChartType`(`name`) VALUES
 --------------------
 CREATE TABLE IF NOT EXISTS `Chart`(
     `number` INTEGER NOT NULL,
-    `location` CHAR(1),
+    `location` CHAR(2),
     `type` VARCHAR(7) NOT NULL,
-    `details` VARCHAR(255) NOT NULL,
+    `details` VARCHAR(100) NOT NULL,
         PRIMARY KEY (`number`, `type`),
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`),
         FOREIGN KEY (`type`) REFERENCES `ChartType`(`name`)
@@ -338,6 +339,7 @@ INSERT INTO `Chart` (
     (39, 'Treasure', 'F2', "In Dragon Roost Cavern"),
     (40, 'Treasure', 'D6', "Clear the Platforms"),
     (41, 'Treasure', 'B6', "Clear the artillery from the reef"),
+
     (01, 'Triforce', 'B5', "Inside the ""Secret Cave"""),
     (02, 'Triforce', 'E5', "Clear the Secret Cave (fireplace"),
     (03, 'Triforce', 'G5', "Use Seagull to hit 5 switchs; In Secret Cave"),
@@ -346,6 +348,74 @@ INSERT INTO `Chart` (
     (06, 'Triforce', 'B7', "Clear the Secret Cave (level 30)"),
     (07, 'Triforce', 'C5', "Clear the Secret Cave"),
     (08, 'Triforce', 'G1', "Clear the Secret Cave")
+;
+
+-- Sunken Treasures
+--------------------
+CREATE TABLE IF NOT EXISTS `SunkenTreasure`(
+    `number` INTEGER PRIMARY KEY NOT NULL,
+    `location` CHAR(2) NOT NULL,
+    `chart_number` INTEGER NOT NULL,
+    `chart_type` VARCHAR(7) NOT NULL,
+    `treasure` VARCHAR(17) NOT NULL,
+        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`),
+        FOREIGN KEY (`chart_number`, `chart_type`) REFERENCES `Chart`(`number`, `type`)
+);
+CREATE INDEX `sunken_treasure_location` ON
+    `SunkenTreasure`(`location`);
+
+INSERT INTO `SunkenTreasure` (
+    `number`, `location`, `chart_number`, `chart_type`, `treasure`
+) VALUES 
+    (01, 'A1', 25, 'Treasure', '200 Rupees'),
+    (02, 'A2', 41, 'Treasure', 'Great Fairy Chart'),
+    (03, 'A3', 08, 'Treasure', '200 Rupees'),
+    (04, 'A4', 38, 'Treasure', 'Heart Piece'),
+    (05, 'A5', 28, 'Treasure', '200 Rupees'),
+    (06, 'A6', 23, 'Treasure', 'Heart Piece'),
+    (07, 'A7', 09, 'Treasure', '200 Rupees'),
+    (08, 'B1', 07, 'Treasure', '200 Rupees'),
+    (09, 'B2', 29, 'Treasure', '200 Rupees'),
+    (10, 'B3', 02, 'Treasure', 'Heart Piece'),
+    (11, 'B4', 01, 'Triforce', 'Triforce Shard'),
+    (12, 'B5', 35, 'Treasure', '200 Rupees'),
+    (13, 'B6', 12, 'Treasure', '200 Rupees'),
+    (14, 'B7', 04, 'Triforce', 'Triforce Shard'),
+    (15, 'C1', 24, 'Treasure', '200 Rupees'),
+    (16, 'C2', 22, 'Treasure', '200 Rupees'),
+    (17, 'C3', 10, 'Treasure', '200 Rupees'),
+    (18, 'C4', 21, 'Treasure', 'Light Ring Chart'),
+    (19, 'C5', 03, 'Triforce', 'Triforce Shard'),
+    (20, 'C6', 16, 'Treasure', '200 Rupees'),
+    (21, 'C7', 40, 'Treasure', '200 Rupees'),
+    (22, 'D1', 02, 'Triforce', 'Triforce Shard'),
+    (23, 'D2', 18, 'Treasure', '1 Rupee'),
+    (24, 'D3', 26, 'Treasure', 'Octo Chart'),
+    (25, 'D4', 06, 'Treasure', '200 Rupees'),
+    (26, 'D5', 06, 'Triforce', 'Triforce Shard'),
+    (27, 'D6', 04, 'Treasure', 'Heart Piece'),
+    (28, 'D7', 08, 'Triforce', 'Triforce Shard'),
+    (29, 'E1', 11, 'Treasure', 'Heart Piece'),
+    (30, 'E2', 30, 'Treasure', 'Heart Piece'),
+    (31, 'E3', 03, 'Treasure', '200 Rupees'),
+    (32, 'E4', 14, 'Treasure', '200 Rupees'),
+    (33, 'E5', 01, 'Treasure', '200 Rupees'),
+    (34, 'E6', 17, 'Treasure', '200 Rupees'),
+    (35, 'E7', 15, 'Treasure', 'Heart Piece'),
+    (36, 'F1', 07, 'Triforce', 'Triforce Shard'),
+    (37, 'F2', 39, 'Treasure', '200 Rupees'),
+    (38, 'F3', 37, 'Treasure', '200 Rupees'),
+    (39, 'F4', 34, 'Treasure', '200 Rupees'),
+    (40, 'F5', 20, 'Treasure', 'Heart Piece'),
+    (41, 'F6', 31, 'Treasure', 'Heart Piece'),
+    (42, 'F7', 32, 'Treasure', 'Sea Hearts Chart'),
+    (43, 'G1', 13, 'Treasure', 'Secret Cave Chart'),
+    (44, 'G2', 19, 'Treasure', 'Hearts Chart'),
+    (45, 'G3', 27, 'Treasure', '200 Rupees'),
+    (46, 'G4', 05, 'Treasure', 'Heart Piece'),
+    (47, 'G5', 36, 'Treasure', '200 Rupees'),
+    (48, 'G6', 05, 'Triforce', 'Triforce Shard'),
+    (49, 'G7', 33, 'Treasure', 'Heart Piece')
 ;
 
 END;
