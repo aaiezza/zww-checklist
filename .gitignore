@@ -27,3 +27,6 @@ bin/
 .settings/
 .project
 .classpath
+
+#SQLite
+*.db
