@@ -1,4 +1,4 @@
-.width 24 2 2 2 2 2 2 2 2 %
+-- .width 24 2 2 2 2 2 2 2 2 %
 SELECT
     `IslandLocation`.`name`,
     `Location`.`coordinate`,
@@ -158,5 +158,5 @@ SELECT
                 SUBSTR('00' || COUNT(`SunkenTreasure`.`number`), -2, 2) ELSE NULL END
         FROM `SunkenTreasure`
         WHERE `SunkenTreasure`.`location` IS NULL
-    ) AS "ST";
+    ) AS "ST"
 ;

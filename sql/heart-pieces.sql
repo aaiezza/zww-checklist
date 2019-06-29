@@ -1,2 +1,5 @@
-.width 2 47
-SELECT `latitude` || `longitude` AS "coordinates", `task` FROM `HeartPiece`;
+-- .width 2 47
+SELECT
+    `location` AS "coordinates",
+    `task`
+FROM `HeartPiece`;
