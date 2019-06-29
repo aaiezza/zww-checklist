@@ -8,7 +8,8 @@ SELECT
     SUBSTR('00' || `OptionalItemLocation`.`Items`, -2, 2) AS "OI",
     SUBSTR('00' || `TreasureChartLocation`.`TreasureCharts`, -2, 2) AS "TC",
     SUBSTR('00' || `TriforceChartLocation`.`TriforceCharts`, -2, 2) AS "TR",
-    SUBSTR('00' || `SunkenTreasureLocation`.`SunkenTreasures`, -2, 2) AS "ST"
+    SUBSTR('00' || `SunkenTreasureLocation`.`SunkenTreasures`, -2, 2) AS "ST",
+    SUBSTR('00' || `OtherChartLocation`.`OtherCharts`, -2, 2) AS "OC"
 
 FROM `Location`
 
@@ -102,6 +103,17 @@ LEFT JOIN (SELECT
         `Location`.`coordinate`) AS `SunkenTreasureLocation`
 USING(`coordinate`)
 
+LEFT JOIN (SELECT
+        `Location`.`coordinate`,
+        CASE WHEN `OtherChart`.`number` IS NOT NULL THEN
+            COUNT(`OtherChart`.`number`) ELSE NULL END AS "OtherCharts"
+    FROM `Location`
+    LEFT JOIN `OtherChart` ON
+        `Location`.`coordinate` = `OtherChart`.`location`
+    GROUP BY
+        `Location`.`coordinate`) AS `OtherChartLocation`
+USING(`coordinate`)
+
 GROUP BY
     `Location`.`coordinate`
 
@@ -158,5 +170,12 @@ SELECT
                 SUBSTR('00' || COUNT(`SunkenTreasure`.`number`), -2, 2) ELSE NULL END
         FROM `SunkenTreasure`
         WHERE `SunkenTreasure`.`location` IS NULL
-    ) AS "ST"
+    ) AS "ST",
+    (
+        SELECT
+            CASE WHEN `OtherChart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`OtherChart`.`number`), -2, 2) ELSE NULL END
+        FROM `OtherChart`
+        WHERE `OtherChart`.`location` IS NULL
+    ) AS "OC"
 ;
