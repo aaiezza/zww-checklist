@@ -489,4 +489,77 @@ INSERT INTO `SunkenChart` (
     (18, 09)  -- C4
 ;
 
+-- Secret Caves
+--------------------
+CREATE TABLE IF NOT EXISTS `SecretCave`(
+    `number` INTEGER PRIMARY KEY NOT NULL,
+    `location` CHAR(2) NOT NULL,
+    `treasures` VARCHAR(50) NOT NULL,
+        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+);
+CREATE INDEX `secret_cave_location` ON
+    `SecretCave`(`location`);
+
+INSERT INTO `SecretCave` (
+    `number`, `location`, `treasures`
+) VALUES
+    (01, 'A5', '100 Rupees'),
+    (02, 'A6', 'Joy Pendant, Ghost Ship Chart'),
+    (03, 'A7', 'Treasure Chart 8'),
+    (04, 'B1', 'Heart Piece'),
+    (05, 'B3', 'Treasure Chart 37'),
+    (06, 'B5', 'Triforce Chart 1'),
+    (07, 'B7', 'Triforce Chart 6, Heart Piece'),
+    (08, 'C5', 'Triforce Chart 7'),
+    (09, 'C6', '200 Rupees'),
+    (10, 'E2', 'Heart Piece, Joy Pendant, 50 Rupees'),
+    (11, 'E2', '200 Rupees'),
+    (12, 'E5', 'Triforce Chart 2'),
+    (13, 'E6', 'Iron Boots, 100 Rupees'),
+    (14, 'E7', '200 Rupees'),
+    (15, 'F2', '50 Rupees'),
+    (16, 'F3', 'Power Bracelets'),
+    (17, 'F5', 'Heart Piece'),
+    (18, 'F7', 'Submarine Chart'),
+    (19, 'G1', 'Triforce Chart 8'),
+    (20, 'G5', 'Triforce Chart 3'),
+    (21, 'G6', 'Joy Pendant')
+;
+
+-- Treasure
+--------------------
+CREATE TABLE IF NOT EXISTS `Treasure`(
+    `name` VARCHAR(50) PRIMARY KEY NOT NULL
+);
+
+INSERT INTO `Treasure` (
+    `name`
+) VALUES
+    ('1 Rupees'),
+    ('5 Rupees'),
+    ('10 Rupees'),
+    ('20 Rupees'),
+    ('50 Rupees'),
+    ('100 Rupees'),
+    ('200 Rupees'),
+    ('Joy Pendant'),
+    ('Treasure Chart 8'),
+    ('Heart Piece'),
+    ('Treasure Chart 37'),
+    ('Triforce Chart 1'),
+    ('Triforce Chart 6, Heart Piece'),
+    ('Triforce Chart 7'),
+    ('Heart Piece, Joy Pendant, 50 Rupees'),
+    ('200 Rupees'),
+    ('Triforce Chart 2'),
+    ('Iron Boots, 100 Rupees'),
+    ('200 Rupees'),
+    ('Power Bracelets'),
+    ('Heart Piece'),
+    ('Submarine Chart'),
+    ('Triforce Chart 8'),
+    ('Triforce Chart 3'),
+    ('Joy Pendant')
+;
+
 END;
