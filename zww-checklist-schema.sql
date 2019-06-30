@@ -162,7 +162,7 @@ INSERT INTO `HeartContainer` (
 -- Heart Pieces
 --------------------
 CREATE TABLE IF NOT EXISTS `HeartPiece`(
-    `id` INTEGER PRIMARY KEY NOT NULL,
+    `id` INTEGER AUTOINCREMENT PRIMARY KEY NOT NULL,
     `location` CHAR(2),
     `task` VARCHAR(100) NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
@@ -222,7 +222,8 @@ INSERT INTO `HeartPiece` (
 -- Items
 --------------------
 CREATE TABLE IF NOT EXISTS `Item`(
-    `name` VARCHAR(50) PRIMARY KEY NOT NULL,
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
     `location` CHAR(2),
     `details` VARCHAR(100) NOT NULL,
     `required` BOOLEAN DEFAULT 1 NOT NULL,
@@ -234,43 +235,43 @@ CREATE INDEX `item_location` ON
 INSERT INTO `Item` (
     `location`, `required`, `name`, `details`
 ) VALUES
-    ('B7', 1, "Telescope",              "Aryll"),
-    ('B7', 1, "Hero's Sword",           "Orca"),
-    ('B7', 1, "Hero's Sheild",          "Granny"),
-    ('B7', 1, "Spoils Bag",             "Tetra's Pirate Ship - Niko's Rope Challenge"),
-    ('A1', 1, "Pirate's Charm",         "Tetra"),
-    ('D2', 1, "Sail",                   "Zunari (80 Rupees)"),
-    ('D2', 0, "Tingle Tuner",           "Tingle"),
-    ('D2', 0, "Picto Box",              "Tingle's cell maze"),
-    ('F2', 1, "Wind Waker",             "The King of Red Lions"),
-    ('F2', 1, "Delivery Bag",           "Quill"),
-    ('F2', 1, "Bottle 1",               "Medli"),
-    ('F2', 1, "Grappling Hook",         "Dragon Roost Cavern"),
-    ('F2', 1, "Din's Pearl",            "Komali"),
-    ('F5', 0, "Bottle 2",               "Submarine"),
-    ('F6', 1, "Deku Leaf",              "Great Deku Tree"),
-    ('F6', 1, "Boomerang",              "Forbidden Woods"),
-    ('F6', 1, "Farore's Pearl",         "Great Deku Tree"),
-    ('D2', 1, "Bombs",                  "Tetra's Pirate Ship - Niko's Rope Challenge"),
-    ('B7', 1, "Nayru's Pearl",          "Jabun"),
-    ('E4', 1, "Hero's Bow",             "Tower of the Gods"),
-    ('E4', 1, "Master Sword",           "Hyrule Castle"),
-    ('A1', 1, "Skull Hammer",           "Phantom Ganon"),
-    ('B2', 1, "Fire & Ice Arrows",      "Fairy Queen"),
-    ('F3', 1, "Power Bracelets",        "Secret Cave"),
-    ('C7', 1, "Mirror Shield",          "Earth Temple"),
-    ('C7', 1, "Master Sword Restore 1", "Earth Temple"),
-    ('E6', 1, "Iron Boots",             "Secret Cave"),
-    ('D1', 1, "Hookshot",               "Wind Temple"),
-    ('D1', 1, "Master Sword Restore 2", "Wind Temple"),
-    (NULL, 1, "Bait Bag",               "Beedle Shop Ship"),
-    ('D2', 1, "Cabana Deed",            "Mrs. Marie (20 Joy Pendants)"),
-    (NULL, 1, "Triforce of Courage",    "Triforce Chart x8"),
-    ('D2', 0, "Deluxe Picto Box",       "Lenzo"),
-    ('D2', 0, "Hero's Charm",           "Mrs. Marie (40 Joy Pendants)"),
-    ('B3', 0, "Bottle 3",               "Beedle Special Shop (500 Rupees)"),
-    ('D2', 0, "Magic Armor",            "Zunari (Exotic Flower)"),
-    ('D2', 0, "Bottle 4",               "Mila")
+    (01, 'B7', 1, "Telescope",              "Aryll"),
+    (02, 'B7', 1, "Hero's Sword",           "Orca"),
+    (03, 'B7', 1, "Hero's Sheild",          "Granny"),
+    (04, 'B7', 1, "Spoils Bag",             "Tetra's Pirate Ship - Niko's Rope Challenge"),
+    (05, 'A1', 1, "Pirate's Charm",         "Tetra"),
+    (06, 'D2', 1, "Sail",                   "Zunari (80 Rupees)"),
+    (07, 'D2', 0, "Tingle Tuner",           "Tingle"),
+    (08, 'D2', 0, "Picto Box",              "Tingle's cell maze"),
+    (09, 'F2', 1, "Wind Waker",             "The King of Red Lions"),
+    (10, 'F2', 1, "Delivery Bag",           "Quill"),
+    (11, 'F2', 1, "Bottle 1",               "Medli"),
+    (12, 'F2', 1, "Grappling Hook",         "Dragon Roost Cavern"),
+    (13, 'F2', 1, "Din's Pearl",            "Komali"),
+    (14, 'F5', 0, "Bottle 2",               "Submarine"),
+    (15, 'F6', 1, "Deku Leaf",              "Great Deku Tree"),
+    (16, 'F6', 1, "Boomerang",              "Forbidden Woods"),
+    (17, 'F6', 1, "Farore's Pearl",         "Great Deku Tree"),
+    (18, 'D2', 1, "Bombs",                  "Tetra's Pirate Ship - Niko's Rope Challenge"),
+    (19, 'B7', 1, "Nayru's Pearl",          "Jabun"),
+    (20, 'E4', 1, "Hero's Bow",             "Tower of the Gods"),
+    (21, 'E4', 1, "Master Sword",           "Hyrule Castle"),
+    (22, 'A1', 1, "Skull Hammer",           "Phantom Ganon"),
+    (23, 'B2', 1, "Fire & Ice Arrows",      "Fairy Queen"),
+    (24, 'F3', 1, "Power Bracelets",        "Secret Cave"),
+    (25, 'C7', 1, "Mirror Shield",          "Earth Temple"),
+    (26, 'C7', 1, "Master Sword Restore 1", "Earth Temple"),
+    (27, 'E6', 1, "Iron Boots",             "Secret Cave"),
+    (28, 'D1', 1, "Hookshot",               "Wind Temple"),
+    (29, 'D1', 1, "Master Sword Restore 2", "Wind Temple"),
+    (30, NULL, 1, "Bait Bag",               "Beedle Shop Ship"),
+    (31, 'D2', 1, "Cabana Deed",            "Mrs. Marie (20 Joy Pendants)"),
+    (32, NULL, 1, "Triforce of Courage",    "Triforce Chart x8"),
+    (33, 'D2', 0, "Deluxe Picto Box",       "Lenzo"),
+    (34, 'D2', 0, "Hero's Charm",           "Mrs. Marie (40 Joy Pendants)"),
+    (35, 'B3', 0, "Bottle 3",               "Beedle Special Shop (500 Rupees)"),
+    (36, 'D2', 0, "Magic Armor",            "Zunari (Exotic Flower)"),
+    (37, 'D2', 0, "Bottle 4",               "Mila")
 ;
 
 -- Treasure & Triforce Chart Types
@@ -352,6 +353,35 @@ INSERT INTO `Chart` (
     (08, 'Triforce', 'G1', "Clear the Secret Cave")
 ;
 
+-- Treasure
+--------------------
+CREATE TABLE IF NOT EXISTS `Treasure`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `name` VARCHAR(50) NOT NULL
+);
+CREATE UNIQUE INDEX `treasure_name` ON
+    `Treasure`(`name`);
+
+INSERT INTO `Treasure` (
+    `id`, `name`
+) VALUES
+    (01, '1 Rupees'),
+    (02, '5 Rupees'),
+    (03, '10 Rupees'),
+    (04, '20 Rupees'),
+    (05, '50 Rupees'),
+    (06, '100 Rupees'),
+    (07, '200 Rupees'),
+    (08, 'Joy Pendant'),
+    (09, 'Skull Pendant'),
+    (10, 'Treasure Chart'),
+    (11, 'Triforce Chart'),
+    (12, 'Heart Container'),
+    (13, 'Heart Piece'),
+    (14, 'Triforce Shard'),
+    (15, 'Other Chart')
+;
+
 -- Sunken Treasures
 --------------------
 CREATE TABLE IF NOT EXISTS `SunkenTreasure`(
@@ -359,65 +389,66 @@ CREATE TABLE IF NOT EXISTS `SunkenTreasure`(
     `location` CHAR(2) NOT NULL,
     `chart_number` INTEGER NOT NULL,
     `chart_type` VARCHAR(7) NOT NULL,
-    `treasure` VARCHAR(17) NOT NULL,
+    `treasure_id` INTEGER NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`),
         FOREIGN KEY (`chart_number`, `chart_type`) REFERENCES `Chart`(`number`, `type`)
+        FOREIGN KEY (`treasure_id`) REFERENCES `Treasure`(`id`)
 );
 CREATE INDEX `sunken_treasure_location` ON
     `SunkenTreasure`(`location`);
 
 INSERT INTO `SunkenTreasure` (
-    `number`, `location`, `chart_number`, `chart_type`, `treasure`
+    `number`, `location`, `chart_number`, `chart_type`, `treasure_id`
 ) VALUES
-    (01, 'A1', 25, 'Treasure', "200 Rupees"),
-    (02, 'A2', 41, 'Treasure', "Great Fairy Chart"),
-    (03, 'A3', 08, 'Treasure', "200 Rupees"),
-    (04, 'A4', 38, 'Treasure', "Heart Piece"),
-    (05, 'A5', 28, 'Treasure', "200 Rupees"),
-    (06, 'A6', 23, 'Treasure', "Heart Piece"),
-    (07, 'A7', 09, 'Treasure', "200 Rupees"),
-    (08, 'B1', 07, 'Treasure', "200 Rupees"),
-    (09, 'B2', 29, 'Treasure', "200 Rupees"),
-    (10, 'B3', 02, 'Treasure', "Heart Piece"),
-    (11, 'B4', 01, 'Triforce', "Triforce Shard"),
-    (12, 'B5', 35, 'Treasure', "200 Rupees"),
-    (13, 'B6', 12, 'Treasure', "200 Rupees"),
-    (14, 'B7', 04, 'Triforce', "Triforce Shard"),
-    (15, 'C1', 24, 'Treasure', "200 Rupees"),
-    (16, 'C2', 22, 'Treasure', "200 Rupees"),
-    (17, 'C3', 10, 'Treasure', "200 Rupees"),
-    (18, 'C4', 21, 'Treasure', "Light Ring Chart"),
-    (19, 'C5', 03, 'Triforce', "Triforce Shard"),
-    (20, 'C6', 16, 'Treasure', "200 Rupees"),
-    (21, 'C7', 40, 'Treasure', "200 Rupees"),
-    (22, 'D1', 02, 'Triforce', "Triforce Shard"),
-    (23, 'D2', 18, 'Treasure', "1 Rupee"),
-    (24, 'D3', 26, 'Treasure', "Octo Chart"),
-    (25, 'D4', 06, 'Treasure', "200 Rupees"),
-    (26, 'D5', 06, 'Triforce', "Triforce Shard"),
-    (27, 'D6', 04, 'Treasure', "Heart Piece"),
-    (28, 'D7', 08, 'Triforce', "Triforce Shard"),
-    (29, 'E1', 11, 'Treasure', "Heart Piece"),
-    (30, 'E2', 30, 'Treasure', "Heart Piece"),
-    (31, 'E3', 03, 'Treasure', "200 Rupees"),
-    (32, 'E4', 14, 'Treasure', "200 Rupees"),
-    (33, 'E5', 01, 'Treasure', "200 Rupees"),
-    (34, 'E6', 17, 'Treasure', "200 Rupees"),
-    (35, 'E7', 15, 'Treasure', "Heart Piece"),
-    (36, 'F1', 07, 'Triforce', "Triforce Shard"),
-    (37, 'F2', 39, 'Treasure', "200 Rupees"),
-    (38, 'F3', 37, 'Treasure', "200 Rupees"),
-    (39, 'F4', 34, 'Treasure', "200 Rupees"),
-    (40, 'F5', 20, 'Treasure', "Heart Piece"),
-    (41, 'F6', 31, 'Treasure', "Heart Piece"),
-    (42, 'F7', 32, 'Treasure', "Sea Hearts Chart"),
-    (43, 'G1', 13, 'Treasure', "Secret Cave Chart"),
-    (44, 'G2', 19, 'Treasure', "Island Hearts Chart"),
-    (45, 'G3', 27, 'Treasure', "200 Rupees"),
-    (46, 'G4', 05, 'Treasure', "Heart Piece"),
-    (47, 'G5', 36, 'Treasure', "200 Rupees"),
-    (48, 'G6', 05, 'Triforce', "Triforce Shard"),
-    (49, 'G7', 33, 'Treasure', "Heart Piece")
+    (01, 'A1', 25, 'Treasure', 07),
+    (02, 'A2', 41, 'Treasure', 15),
+    (03, 'A3', 08, 'Treasure', 07),
+    (04, 'A4', 38, 'Treasure', 13),
+    (05, 'A5', 28, 'Treasure', 07),
+    (06, 'A6', 23, 'Treasure', 13),
+    (07, 'A7', 09, 'Treasure', 07),
+    (08, 'B1', 07, 'Treasure', 07),
+    (09, 'B2', 29, 'Treasure', 07),
+    (10, 'B3', 02, 'Treasure', 13),
+    (11, 'B4', 01, 'Triforce', 14),
+    (12, 'B5', 35, 'Treasure', 07),
+    (13, 'B6', 12, 'Treasure', 07),
+    (14, 'B7', 04, 'Triforce', 14),
+    (15, 'C1', 24, 'Treasure', 07),
+    (16, 'C2', 22, 'Treasure', 07),
+    (17, 'C3', 10, 'Treasure', 07),
+    (18, 'C4', 21, 'Treasure', 15),
+    (19, 'C5', 03, 'Triforce', 14),
+    (20, 'C6', 16, 'Treasure', 07),
+    (21, 'C7', 40, 'Treasure', 07),
+    (22, 'D1', 02, 'Triforce', 14),
+    (23, 'D2', 18, 'Treasure', 01),
+    (24, 'D3', 26, 'Treasure', 15),
+    (25, 'D4', 06, 'Treasure', 07),
+    (26, 'D5', 06, 'Triforce', 14),
+    (27, 'D6', 04, 'Treasure', 13),
+    (28, 'D7', 08, 'Triforce', 14),
+    (29, 'E1', 11, 'Treasure', 13),
+    (30, 'E2', 30, 'Treasure', 13),
+    (31, 'E3', 03, 'Treasure', 07),
+    (32, 'E4', 14, 'Treasure', 07),
+    (33, 'E5', 01, 'Treasure', 07),
+    (34, 'E6', 17, 'Treasure', 07),
+    (35, 'E7', 15, 'Treasure', 13),
+    (36, 'F1', 07, 'Triforce', 14),
+    (37, 'F2', 39, 'Treasure', 07),
+    (38, 'F3', 37, 'Treasure', 07),
+    (39, 'F4', 34, 'Treasure', 07),
+    (40, 'F5', 20, 'Treasure', 13),
+    (41, 'F6', 31, 'Treasure', 13),
+    (42, 'F7', 32, 'Treasure', 15),
+    (43, 'G1', 13, 'Treasure', 15),
+    (44, 'G2', 19, 'Treasure', 15),
+    (45, 'G3', 27, 'Treasure', 07),
+    (46, 'G4', 05, 'Treasure', 13),
+    (47, 'G5', 36, 'Treasure', 07),
+    (48, 'G6', 05, 'Triforce', 14),
+    (49, 'G7', 33, 'Treasure', 13)
 ;
 
 -- Other Charts
