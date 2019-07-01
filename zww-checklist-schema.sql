@@ -548,6 +548,10 @@ INSERT INTO `SunkenRupee` (
     (36, 'G5', 200)
 ;
 
+-- This view only actually works without needing to join to a
+--  SunkenThings table because there is only ever 1 thing in a chest.
+--  If that changes, this schema breaks, and we would need to ID each
+--  SunkenChest.
 -- .width 2 2 17 2 19
 CREATE VIEW IF NOT EXISTS `SunkenThing` AS
 SELECT
@@ -608,7 +612,7 @@ ORDER BY `sunk`.`location`
 -- Secret Caves
 --------------------
 CREATE TABLE IF NOT EXISTS `SecretCave`(
-    `number` INTEGER PRIMARY KEY NOT NULL,
+    `id` INTEGER PRIMARY KEY NOT NULL,
     `location` CHAR(2) NOT NULL,
     `treasures` VARCHAR(50) NOT NULL,
         FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
@@ -617,7 +621,7 @@ CREATE INDEX `secret_cave_location` ON
     `SecretCave`(`location`);
 
 INSERT INTO `SecretCave` (
-    `number`, `location`, `treasures`
+    `id`, `location`, `treasures`
 ) VALUES
     (01, 'A5', '100 Rupees'),
     (02, 'A6', 'Joy Pendant, Ghost Ship Chart'),
@@ -642,40 +646,28 @@ INSERT INTO `SecretCave` (
     (21, 'G6', 'Joy Pendant')
 ;
 
--- Treasure
+-- Secret Cave → Rupees
 --------------------
-CREATE TABLE IF NOT EXISTS `Treasure`(
-    `name` VARCHAR(50) PRIMARY KEY NOT NULL
+CREATE TABLE IF NOT EXISTS `SecretCaveRupee`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `secretCaveId` INTEGER NOT NULL,
+    `location` CHAR(2) NOT NULL,
+    `rupee_value` UNSIGNED INTEGER NOT NULL,
+        FOREIGN KEY (`secretCaveId`) REFERENCES
+            `SecretCave`(`id`),
+        FOREIGN KEY (`location`) REFERENCES
+            `Location`(`coordinate`)
 );
+CREATE INDEX `secret_cave_rupee_scId` ON
+    `SunkenRupee`(`treasureChartNumber`);
+CREATE INDEX `secret_cave_rupee_location` ON
+    `Location`(`coordinate`);
 
-INSERT INTO `Treasure` (
-    `name`
+INSERT INTO `SecretCaveRupee` (
+    `secretCaveId`, `location`, `rupee_value`
 ) VALUES
-    ('1 Rupees'),
-    ('5 Rupees'),
-    ('10 Rupees'),
-    ('20 Rupees'),
-    ('50 Rupees'),
-    ('100 Rupees'),
-    ('200 Rupees'),
-    ('Joy Pendant'),
-    ('Treasure Chart 8'),
-    ('Heart Piece'),
-    ('Treasure Chart 37'),
-    ('Triforce Chart 1'),
-    ('Triforce Chart 6, Heart Piece'),
-    ('Triforce Chart 7'),
-    ('Heart Piece, Joy Pendant, 50 Rupees'),
-    ('200 Rupees'),
-    ('Triforce Chart 2'),
-    ('Iron Boots, 100 Rupees'),
-    ('200 Rupees'),
-    ('Power Bracelets'),
-    ('Heart Piece'),
-    ('Submarine Chart'),
-    ('Triforce Chart 8'),
-    ('Triforce Chart 3'),
-    ('Joy Pendant')
+    (01, 'A5', 100),
+    -- …
 ;
 
 END;
