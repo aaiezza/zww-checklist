@@ -4,15 +4,20 @@ PRAGMA foreign_keys = ON;
 
 BEGIN;
 
+DROP VIEW IF EXISTS `SunkenThing`;
+
 DROP TABLE IF EXISTS `Island`;
+DROP TABLE IF EXISTS `Item`;
+DROP TABLE IF EXISTS `SunkenTriforceShard`;
+DROP TABLE IF EXISTS `SunkenChart`;
+DROP TABLE IF EXISTS `SunkenHeartPiece`;
+DROP TABLE IF EXISTS `SunkenRupee`;
 DROP TABLE IF EXISTS `HeartContainer`;
 DROP TABLE IF EXISTS `HeartPiece`;
-DROP TABLE IF EXISTS `Item`;
-DROP TABLE IF EXISTS `Chart`;
-DROP TABLE IF EXISTS `ChartType`;
-DROP TABLE IF EXISTS `SunkenTreasureOtherChart`;
-DROP TABLE IF EXISTS `SunkenTreasure`;
 DROP TABLE IF EXISTS `OtherChart`;
+DROP TABLE IF EXISTS `TreasureChart`;
+DROP TABLE IF EXISTS `TriforceChart`;
+DROP TABLE IF EXISTS `TriforceShard`;
 
 DROP TABLE IF EXISTS `Location`;
 
