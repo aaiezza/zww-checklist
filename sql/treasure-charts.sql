@@ -1,10 +1,13 @@
--- .width 2 2 45
+-- .width 2 17 2 25
 SELECT
-    `location` AS "coordinates",
-    SUBSTR('00' || `number`, -2, 2) AS "#",
-    `details`
-FROM `Chart`
-LEFT JOIN `Location` ON
-    `Chart`.`location` = `Location`.`coordinate`
-WHERE `type` = "Treasure"
+    `Location`.`coordinate`,
+    "Treasure Chart "||SUBSTR('00' || `number`, -2, 2) AS "chart",
+    `SunkenThing`.`location` AS "Sunken Treasure Location",
+    `SunkenThing`.`treasure`
+FROM `Location`
+INNER JOIN `TreasureChart` ON
+    `Location`.`coordinate` = `TreasureChart`.`location`
+LEFT JOIN `SunkenThing` ON
+    "Treasure Chart "||SUBSTR('00' || `TreasureChart`.`number`, -2, 2) =
+        `SunkenThing`.`chart`
 ORDER BY `latitude`, `longitude`;
