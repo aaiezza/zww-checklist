@@ -1,4 +1,6 @@
--- .width 24 2 2 2 2 2 2 2 2 %
+-- .width 24 2 2 2 2 2 2 2 2 2 %
+CREATE VIEW IF NOT EXISTS IslandTasks AS
+
 SELECT
     `IslandLocation`.`name`,
     `Location`.`coordinate`,
@@ -70,35 +72,33 @@ USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        CASE WHEN `Chart`.`number` IS NOT NULL THEN
-            COUNT(`Chart`.`number`) ELSE NULL END AS "TreasureCharts"
+        CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
+            COUNT(`TreasureChart`.`number`) ELSE NULL END AS "TreasureCharts"
     FROM `Location`
-    LEFT JOIN `Chart` ON
-        `Location`.`coordinate` = `Chart`.`location`
-    WHERE `Chart`.`type` = 'Treasure'
+    LEFT JOIN `TreasureChart` ON
+        `Location`.`coordinate` = `TreasureChart`.`location`
     GROUP BY
         `Location`.`coordinate`) AS `TreasureChartLocation`
 USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        CASE WHEN `Chart`.`number` IS NOT NULL THEN
-            COUNT(`Chart`.`number`) ELSE NULL END AS "TriforceCharts"
+        CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
+            COUNT(`TriforceChart`.`number`) ELSE NULL END AS "TriforceCharts"
     FROM `Location`
-    LEFT JOIN `Chart` ON
-        `Location`.`coordinate` = `Chart`.`location`
-    WHERE `Chart`.`type` = 'Triforce'
+    LEFT JOIN `TriforceChart` ON
+        `Location`.`coordinate` = `TriforceChart`.`location`
     GROUP BY
         `Location`.`coordinate`) AS `TriforceChartLocation`
 USING(`coordinate`)
 
 LEFT JOIN (SELECT
         `Location`.`coordinate`,
-        CASE WHEN `SunkenTreasure`.`number` IS NOT NULL THEN
-            COUNT(`SunkenTreasure`.`number`) ELSE NULL END AS "SunkenTreasures"
+        CASE WHEN `SunkenThing`.`id` IS NOT NULL THEN
+            COUNT(`SunkenThing`.`id`) ELSE NULL END AS "SunkenTreasures"
     FROM `Location`
-    LEFT JOIN `SunkenTreasure` ON
-        `Location`.`coordinate` = `SunkenTreasure`.`location`
+    LEFT JOIN `SunkenThing` ON
+        `Location`.`coordinate` = `SunkenThing`.`location`
     GROUP BY
         `Location`.`coordinate`) AS `SunkenTreasureLocation`
 USING(`coordinate`)
@@ -152,24 +152,24 @@ SELECT
     ) AS "OI",
     (
         SELECT
-            CASE WHEN `Chart`.`number` IS NOT NULL THEN
-                SUBSTR('00' || COUNT(`Chart`.`number`), -2, 2) ELSE NULL END
-        FROM `Chart`
-        WHERE `Chart`.`location` IS NULL AND `Chart`.`type` = 'Treasure'
+            CASE WHEN `TreasureChart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`TreasureChart`.`number`), -2, 2) ELSE NULL END
+        FROM `TreasureChart`
+        WHERE `TreasureChart`.`location` IS NULL
     ) AS "TC",
     (
         SELECT
-            CASE WHEN `Chart`.`number` IS NOT NULL THEN
-                SUBSTR('00' || COUNT(`Chart`.`number`), -2, 2) ELSE NULL END
-        FROM `Chart`
-        WHERE `Chart`.`location` IS NULL AND `Chart`.`type` = 'Triforce'
+            CASE WHEN `TriforceChart`.`number` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`TriforceChart`.`number`), -2, 2) ELSE NULL END
+        FROM `TriforceChart`
+        WHERE `TriforceChart`.`location` IS NULL
     ) AS "TR",
     (
         SELECT
-            CASE WHEN `SunkenTreasure`.`number` IS NOT NULL THEN
-                SUBSTR('00' || COUNT(`SunkenTreasure`.`number`), -2, 2) ELSE NULL END
-        FROM `SunkenTreasure`
-        WHERE `SunkenTreasure`.`location` IS NULL
+            CASE WHEN `SunkenThing`.`id` IS NOT NULL THEN
+                SUBSTR('00' || COUNT(`SunkenThing`.`id`), -2, 2) ELSE NULL END
+        FROM `SunkenThing`
+        WHERE `SunkenThing`.`location` IS NULL
     ) AS "ST",
     (
         SELECT
