@@ -279,6 +279,27 @@ INSERT INTO `Item` (
     (37, 'D2', 0, "Bottle 4",               "Mila")
 ;
 
+-- Spoils
+--------------------
+CREATE TABLE IF NOT EXISTS `Spoil`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `name` VARCHAR(20) NOT NULL
+);
+CREATE INDEX `spoil_name` ON
+    `Spoil`(`name`);
+
+INSERT INTO `Spoil` (
+    `id`, `name`
+) VALUES
+    (01, "Red Chu Jelly"),
+    (02, "Green Chu Jelly"),
+    (03, "Blue Chu Jelly"),
+    (04, "Boko Baba Seed"),
+    (05, "Joy Pendant"),
+    (06, "Knight's Crest"),
+    (07, "Golden Feather"),
+    (08, "Skull Necklace")
+;
 -- Treasure Charts
 --------------------
 CREATE TABLE IF NOT EXISTS `TreasureChart`(
@@ -651,23 +672,23 @@ INSERT INTO `SecretCave` (
 CREATE TABLE IF NOT EXISTS `SecretCaveRupee`(
     `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     `secretCaveId` INTEGER NOT NULL,
-    `location` CHAR(2) NOT NULL,
     `rupee_value` UNSIGNED INTEGER NOT NULL,
         FOREIGN KEY (`secretCaveId`) REFERENCES
-            `SecretCave`(`id`),
-        FOREIGN KEY (`location`) REFERENCES
-            `Location`(`coordinate`)
+            `SecretCave`(`id`)
 );
 CREATE INDEX `secret_cave_rupee_scId` ON
     `SunkenRupee`(`treasureChartNumber`);
-CREATE INDEX `secret_cave_rupee_location` ON
-    `Location`(`coordinate`);
 
 INSERT INTO `SecretCaveRupee` (
-    `secretCaveId`, `location`, `rupee_value`
+    `secretCaveId`, `rupee_value`
 ) VALUES
-    (01, 'A5', 100),
-    -- …
+    (01, 100), -- A5
+    (09, 200), -- C6
+    (10, 050), -- E2
+    (11, 200), -- E2
+    (13, 100), -- E6
+    (14, 200), -- E7
+    (15, 050)  -- F2
 ;
 
 END;
