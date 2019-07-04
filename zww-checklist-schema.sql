@@ -37,7 +37,7 @@ INSERT INTO `Longitude` ( `value` ) VALUES
 --------------------
 DROP TABLE IF EXISTS `Latitude`;
 CREATE TABLE IF NOT EXISTS `Latitude`(
-    `value` UNSIGNED TINYINT(1) PRIMARY KEY NOT NULL
+    `value` TINYINT(1) PRIMARY KEY NOT NULL
 );
 INSERT INTO `Latitude` ( `value` ) VALUES
     (1), (2), (3), (4), (5), (6), (7);
@@ -47,7 +47,7 @@ INSERT INTO `Latitude` ( `value` ) VALUES
 CREATE TABLE IF NOT EXISTS `Location`(
     `id` INTEGER PRIMARY KEY NOT NULL,
     `coordinate` CHAR(2) NOT NULL,
-    `longitude` UNSIGNED TINYINT(1) NOT NULL,
+    `longitude` TINYINT(1) NOT NULL,
     `latitude` CHAR(1) NOT NULL,
         FOREIGN KEY (`longitude`) REFERENCES `Longitude`(`value`),
         FOREIGN KEY (`latitude`)  REFERENCES `Latitude`(`value`)
@@ -300,6 +300,7 @@ INSERT INTO `Spoil` (
     (07, "Golden Feather"),
     (08, "Skull Necklace")
 ;
+
 -- Treasure Charts
 --------------------
 CREATE TABLE IF NOT EXISTS `TreasureChart`(
@@ -529,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `SunkenRupee`(
     `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     `treasureChartNumber` INTEGER NOT NULL,
     `location` CHAR(2) NOT NULL,
-    `rupee_value` UNSIGNED INTEGER NOT NULL,
+    `rupeeValue` INTEGER NOT NULL,
         FOREIGN KEY (`treasureChartNumber`) REFERENCES
             `TreasureChart`(`number`),
         FOREIGN KEY (`location`) REFERENCES
@@ -541,7 +542,7 @@ CREATE INDEX `sunken_rupee_location` ON
     `Location`(`coordinate`);
 
 INSERT INTO `SunkenRupee` (
-    `treasureChartNumber`, `location`, `rupee_value`
+    `treasureChartNumber`, `location`, `rupeeValue`
 ) VALUES
     (25, 'A1', 200),
     (08, 'A3', 200),
@@ -587,8 +588,8 @@ SELECT
     `TreasureChart`.`location` AS "chart location",
     "Treasure Chart "||SUBSTR('00' || `TreasureChart`.`number`, -2, 2) AS `chart`,
     `SunkenRupee`.`location` AS `location`,
-    `SunkenRupee`.`rupee_value`||(
-        CASE WHEN `SunkenRupee`.`rupee_value` <= 1 THEN
+    `SunkenRupee`.`rupeeValue`||(
+        CASE WHEN `SunkenRupee`.`rupeeValue` <= 1 THEN
             " Rupee" ELSE " Rupees" END) AS `treasure`
 FROM `SunkenRupee`
 LEFT JOIN `TreasureChart` ON
@@ -667,20 +668,70 @@ INSERT INTO `SecretCave` (
     (21, 'G6', 'Joy Pendant')
 ;
 
+-- Secret Cave → Heart Pieces
+--------------------
+CREATE TABLE IF NOT EXISTS `SecretCaveHeartPiece`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `secretCaveId` INTEGER NOT NULL,
+    `heartPieceId` INTEGER NOT NULL,
+        FOREIGN KEY (`secretCaveId`) REFERENCES
+            `SecretCave`(`id`),
+        FOREIGN KEY (`heartPieceId`) REFERENCES
+            `HeartPiece`(`id`)
+);
+CREATE INDEX `secret_cave_heart_piece_scId` ON
+    `SecretCaveHeartPiece`(`secretCaveId`);
+CREATE INDEX `secret_cave_hert_piece_hpId` ON
+    `SecretCaveHeartPiece`(`heartPieceId`);
+
+INSERT INTO `SecretCaveHeartPiece` (
+    `secretCaveId`, `heartPieceId`
+) VALUES
+    (04, 05), -- B1
+    (07, 13), -- B7
+    (10, 30), -- E2
+    (17, 37)  -- F5
+;
+
+-- Secret Cave → Items
+--------------------
+CREATE TABLE IF NOT EXISTS `SecretCaveItem`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `secretCaveId` INTEGER NOT NULL,
+    `itemId` INTEGER NOT NULL,
+        FOREIGN KEY (`secretCaveId`) REFERENCES
+            `SecretCave`(`id`),
+        FOREIGN KEY (`itemId`) REFERENCES
+            `Item`(`id`)
+);
+CREATE INDEX `secret_cave_item_scId` ON
+    `SecretCaveItem`(`secretCaveId`);
+CREATE INDEX `secret_cave_item_itId` ON
+    `SecretCaveItem`(`itemId`);
+
+INSERT INTO `SecretCaveItem` (
+    `secretCaveId`, `itemId`
+) VALUES
+    (13, 27), -- E6
+    (16, 24)  -- F3
+;
+
 -- Secret Cave → Rupees
 --------------------
 CREATE TABLE IF NOT EXISTS `SecretCaveRupee`(
     `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     `secretCaveId` INTEGER NOT NULL,
-    `rupee_value` UNSIGNED INTEGER NOT NULL,
+    `rupeeValue` INTEGER NOT NULL,
         FOREIGN KEY (`secretCaveId`) REFERENCES
             `SecretCave`(`id`)
 );
 CREATE INDEX `secret_cave_rupee_scId` ON
-    `SunkenRupee`(`treasureChartNumber`);
+    `SecretCaveRupee`(`secretCaveId`);
+CREATE INDEX `secret_cave_rupee_value` ON
+    `SecretCaveRupee`(`rupeeValue`);
 
 INSERT INTO `SecretCaveRupee` (
-    `secretCaveId`, `rupee_value`
+    `secretCaveId`, `rupeeValue`
 ) VALUES
     (01, 100), -- A5
     (09, 200), -- C6
@@ -689,6 +740,101 @@ INSERT INTO `SecretCaveRupee` (
     (13, 100), -- E6
     (14, 200), -- E7
     (15, 050)  -- F2
+;
+
+-- Secret Cave → Spoils
+--------------------
+CREATE TABLE IF NOT EXISTS `SecretCaveSpoil`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `secretCaveId` INTEGER NOT NULL,
+    `spoilId` INTEGER NOT NULL,
+        FOREIGN KEY (`secretCaveId`) REFERENCES
+            `SecretCave`(`id`)
+);
+CREATE INDEX `secret_cave_spoil_scId` ON
+    `SecretCaveSpoil`(`secretCaveId`);
+CREATE INDEX `secret_cave_spoil_sId` ON
+    `SecretCaveSpoil`(`spoilId`);
+
+INSERT INTO `SecretCaveSpoil` (
+    `secretCaveId`, `spoilId`
+) VALUES
+    (02, 05), -- A6
+    (10, 05), -- E2
+    (21, 05)  -- G6
+;
+
+-- Secret Cave → Treasure Charts
+--------------------
+CREATE TABLE IF NOT EXISTS `SecretCaveTreasureChart`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `secretCaveId` INTEGER NOT NULL,
+    `treasureChartNumber` INTEGER NOT NULL,
+        FOREIGN KEY (`secretCaveId`) REFERENCES
+            `SecretCave`(`id`),
+        FOREIGN KEY (`treasureChartNumber`) REFERENCES
+            `TreasureChart`(`number`)
+);
+CREATE INDEX `secret_cave_treasure_chart_scId` ON
+    `SecretCaveTreasureChart`(`secretCaveId`);
+CREATE INDEX `secret_cave_treasure_chart_tcNum` ON
+    `SecretCaveTreasureChart`(`treasureChartNumber`);
+
+INSERT INTO `SecretCaveTreasureChart` (
+    `secretCaveId`, `treasureChartNumber`
+) VALUES
+    (03, 08), -- A7
+    (05, 37)  -- B3
+;
+
+-- Secret Cave → Triforce Charts
+--------------------
+CREATE TABLE IF NOT EXISTS `SecretCaveTriforceChart`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `secretCaveId` INTEGER NOT NULL,
+    `triforceChartNumber` INTEGER NOT NULL,
+        FOREIGN KEY (`secretCaveId`) REFERENCES
+            `SecretCave`(`id`),
+        FOREIGN KEY (`triforceChartNumber`) REFERENCES
+            `TriforceChart`(`number`)
+);
+CREATE INDEX `secret_cave_triforce_chart_scId` ON
+    `SecretCaveTriforceChart`(`secretCaveId`);
+CREATE INDEX `secret_cave_triforce_chart_trNum` ON
+    `SecretCaveTriforceChart`(`triforceChartNumber`);
+
+INSERT INTO `SecretCaveTriforceChart` (
+    `secretCaveId`, `triforceChartNumber`
+) VALUES
+    (06, 01), -- B5
+    (07, 06), -- B7
+    (08, 07), -- C5
+    (12, 02), -- E5
+    (19, 08), -- G1
+    (20, 03)  -- G5
+;
+
+-- Secret Cave → Other Charts
+--------------------
+CREATE TABLE IF NOT EXISTS `SecretCaveOtherChart`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `secretCaveId` INTEGER NOT NULL,
+    `otherChartNumber` INTEGER NOT NULL,
+        FOREIGN KEY (`secretCaveId`) REFERENCES
+            `SecretCave`(`id`),
+        FOREIGN KEY (`otherChartNumber`) REFERENCES
+            `OtherChart`(`number`)
+);
+CREATE INDEX `secret_cave_other_chart_scId` ON
+    `SecretCaveOtherChart`(`secretCaveId`);
+CREATE INDEX `secret_cave_other_chart_ocNum` ON
+    `SecretCaveOtherChart`(`otherChartNumber`);
+
+INSERT INTO `SecretCaveOtherChart` (
+    `secretCaveId`, `otherChartNumber`
+) VALUES
+    (02, 01), -- A6 Ghost Ship Chart
+    (18, 12)  -- F7 Submarine Chart
 ;
 
 END;
