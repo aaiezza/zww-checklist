@@ -139,144 +139,158 @@ INSERT INTO `Island` (
     ("Five-Star Isles",          'G7')
 ;
 
---------------------
+--------------------------------------------------------------------
 -- Features
 --------------------
 -- Heart Containers
 --------------------
 CREATE TABLE IF NOT EXISTS `HeartContainer`(
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2),
-    `details` VARCHAR(100) NOT NULL,
-        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+    `details` VARCHAR(100) NOT NULL
 );
-CREATE INDEX `heart_container_location` ON
-    `HeartContainer`(`location`);
 
 INSERT INTO `HeartContainer` (
-    `location`, `details`
+    `id`, `details`
 ) VALUES
-    ('F2', "Dragon Roost Cavern"),
-    ('F6', "Forbidden Woods"),
-    ('E4', "Tower of the Gods"),
-    ('A1', "2nd visit"),
-    ('C7', "Earth Temple"),
-    ('D1', "Wind Temple")
+    (01, "Dragon Roost Cavern"),
+    (02, "Forbidden Woods"),
+    (03, "Tower of the Gods"),
+    (04, "2nd visit"),
+    (05, "Earth Temple"),
+    (06, "Wind Temple")
 ;
 
 -- Heart Pieces
 --------------------
 CREATE TABLE IF NOT EXISTS `HeartPiece`(
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2),
-    `task` VARCHAR(100) NOT NULL,
-        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+    `task` VARCHAR(100) NOT NULL
 );
-CREATE INDEX `heart_piece_location` ON
-    `HeartPiece`(`location`);
 
 INSERT INTO `HeartPiece` (
-    `id`, `location`, `task`
+    `id`, `task`
 ) VALUES
-    (01, 'A1', "Locked in a jail cell; Use button to open door"),
-    (02, 'A4', "Use Treasure Chart 38"),
-    (03, 'A5', "Use Seagull to hit switch to put out flames"),
-    (04, 'A6', "Use Treasure Chart 23"),
-    (05, 'B1', "Clear the Secret Cave"),
-    (06, 'B3', "950 Rupees at Beedle's Shop Ship"),
-    (07, 'B3', "Use Treasure Chart 2"),
-    (08, 'B3', "Defeat Cannon Boats and get from Light Ring"),
-    (09, 'B4', "Use Deku Leaf from spiral island to ledge"),
-    (10, 'B4', "Give Traveling Merchant a Shop Guru Statue"),
-    (11, 'B7', "Hit Orca 500 times"),
-    (12, 'B7', "Carry large pig to black dirt and use bait"),
-    (13, 'B7', "Clear the Secret Cave (all 50 floors)"),
-    (14, 'C2', "Win the Cannon Shoot mini-game (1st)"),
-    (15, 'C3', "Defeat the Big Octo (12 eyes)"),
-    (16, 'C5', "Destroy th Cannons on the Platform"),
-    (17, 'C7', "Use Seagull to fetch from top of mountain"),
-    (18, 'D2', "Win the hide-and-seek game with the kids"),
-    (19, 'D2', "Win the Zee Fleet mini-game (1st)"),
-    (20, 'D2', "Get the two people to start datig"),
-    (21, 'D2', "Win the Auction (3rd item)"),
-    (22, 'D2', "Decorate the town and talk to man on bench"),
-    (23, 'D2', "Light the lighthouse; Talk to operator"),
-    (24, 'D2', "Light the lighthouse; Chest on small island"),
-    (25, 'D2', "Give Moe's letter to Maggie"),
-    (26, 'D4', "Clear the Submarine"),
-    (27, 'D6', "Use Treasure Chart 4"),
-    (28, 'E1', "Use Treasure Chart 11"),
-    (29, 'E2', "Use Treasure Chart 30"),
-    (30, 'E2', "At the back of the Turtle Dome Secret Cave"),
-    (31, 'E7', "Use Treasure Chart 15"),
-    (32, 'E7', "On the top of the block-puzzle mountain"),
-    (33, 'F1', "Defeat the Big Octo (12 eyes)"),
-    (34, 'F2', "Letter after defeating Kalle Demos"),
-    (35, 'F2', "Letter after delivering part-timer's letter"),
-    (36, 'F2', "Letter after give 20 Golden Feathers to guard"),
-    (37, 'F5', "Clear the Secret Cave"),
-    (38, 'F5', "Use Treasure Chart 20"),
-    (39, 'F6', "Complete the Wilted Deku Tree side quest"),
-    (40, 'F6', "Use Treasure Chart 31"),
-    (41, 'G2', "Win the Bird-Man Contest mini-game"),
-    (42, 'G4', "Use Treasure Chart 5"),
-    (43, 'G7', "Clear the Submarine"),
-    (44, 'G7', "Use Treasure Chart 33")
+    (01, "Locked in a jail cell; Use button to open door"),
+    (02, "Use Treasure Chart 38"),
+    (03, "Use Seagull to hit switch to put out flames"),
+    (04, "Use Treasure Chart 23"),
+    (05, "Clear the Secret Cave"),
+    (06, "950 Rupees at Beedle's Shop Ship"),
+    (07, "Use Treasure Chart 2"),
+    (08, "Defeat Cannon Boats and get from Light Ring"),
+    (09, "Use Deku Leaf from spiral island to ledge"),
+    (10, "Give Traveling Merchant a Shop Guru Statue"),
+    (11, "Hit Orca 500 times"),
+    (12, "Carry large pig to black dirt and use bait"),
+    (13, "Clear the Secret Cave (all 50 floors)"),
+    (14, "Win the Cannon Shoot mini-game (1st)"),
+    (15, "Defeat the Big Octo (12 eyes)"),
+    (16, "Destroy th Cannons on the Platform"),
+    (17, "Use Seagull to fetch from top of mountain"),
+    (18, "Win the hide-and-seek game with the kids"),
+    (19, "Win the Zee Fleet mini-game (1st)"),
+    (20, "Get the two people to start datig"),
+    (21, "Win the Auction (3rd item)"),
+    (22, "Decorate the town and talk to man on bench"),
+    (23, "Light the lighthouse; Talk to operator"),
+    (24, "Light the lighthouse; Chest on small island"),
+    (25, "Give Moe's letter to Maggie"),
+    (26, "Clear the Submarine"),
+    (27, "Use Treasure Chart 4"),
+    (28, "Use Treasure Chart 11"),
+    (29, "Use Treasure Chart 30"),
+    (30, "At the back of the Turtle Dome Secret Cave"),
+    (31, "Use Treasure Chart 15"),
+    (32, "On the top of the block-puzzle mountain"),
+    (33, "Defeat the Big Octo (12 eyes)"),
+    (34, "Letter after defeating Kalle Demos"),
+    (35, "Letter after delivering part-timer's letter"),
+    (36, "Letter after give 20 Golden Feathers to guard"),
+    (37, "Clear the Secret Cave"),
+    (38, "Use Treasure Chart 20"),
+    (39, "Complete the Wilted Deku Tree side quest"),
+    (40, "Use Treasure Chart 31"),
+    (41, "Win the Bird-Man Contest mini-game"),
+    (42, "Use Treasure Chart 5"),
+    (43, "Clear the Submarine"),
+    (44, "Use Treasure Chart 33")
 ;
 
 -- Items
 --------------------
 CREATE TABLE IF NOT EXISTS `Item`(
     `id` INTEGER PRIMARY KEY NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
-    `location` CHAR(2),
-    `details` VARCHAR(100) NOT NULL,
-    `required` BOOLEAN DEFAULT 1 NOT NULL,
-        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+    `name` VARCHAR(25) NOT NULL,
+    `details` VARCHAR(45) NOT NULL,
+    `required` BOOLEAN NOT NULL DEFAULT 1
 );
-CREATE INDEX `item_location` ON
-    `Item`(`location`);
+CREATE UNIQUE INDEX `item_name` ON
+    `Item`(`name`);
 
 INSERT INTO `Item` (
-    `id`, `location`, `required`, `name`, `details`
+    `id`, `required`, `name`, `details`
 ) VALUES
-    (01, 'B7', 1, "Telescope",              "Aryll"),
-    (02, 'B7', 1, "Hero's Sword",           "Orca"),
-    (03, 'B7', 1, "Hero's Sheild",          "Granny"),
-    (04, 'B7', 1, "Spoils Bag",             "Tetra's Pirate Ship - Niko's Rope Challenge"),
-    (05, 'A1', 1, "Pirate's Charm",         "Tetra"),
-    (06, 'D2', 1, "Sail",                   "Zunari (80 Rupees)"),
-    (07, 'D2', 0, "Tingle Tuner",           "Tingle"),
-    (08, 'D2', 0, "Picto Box",              "Tingle's cell maze"),
-    (09, 'F2', 1, "Wind Waker",             "The King of Red Lions"),
-    (10, 'F2', 1, "Delivery Bag",           "Quill"),
-    (11, 'F2', 1, "Bottle 1",               "Medli"),
-    (12, 'F2', 1, "Grappling Hook",         "Dragon Roost Cavern"),
-    (13, 'F2', 1, "Din's Pearl",            "Komali"),
-    (14, 'F5', 0, "Bottle 2",               "Submarine"),
-    (15, 'F6', 1, "Deku Leaf",              "Great Deku Tree"),
-    (16, 'F6', 1, "Boomerang",              "Forbidden Woods"),
-    (17, 'F6', 1, "Farore's Pearl",         "Great Deku Tree"),
-    (18, 'D2', 1, "Bombs",                  "Tetra's Pirate Ship - Niko's Rope Challenge"),
-    (19, 'B7', 1, "Nayru's Pearl",          "Jabun"),
-    (20, 'E4', 1, "Hero's Bow",             "Tower of the Gods"),
-    (21, 'E4', 1, "Master Sword",           "Hyrule Castle"),
-    (22, 'A1', 1, "Skull Hammer",           "Phantom Ganon"),
-    (23, 'B2', 1, "Fire & Ice Arrows",      "Fairy Queen"),
-    (24, 'F3', 1, "Power Bracelets",        "Secret Cave"),
-    (25, 'C7', 1, "Mirror Shield",          "Earth Temple"),
-    (26, 'C7', 1, "Master Sword Restore 1", "Earth Temple"),
-    (27, 'E6', 1, "Iron Boots",             "Secret Cave"),
-    (28, 'D1', 1, "Hookshot",               "Wind Temple"),
-    (29, 'D1', 1, "Master Sword Restore 2", "Wind Temple"),
-    (30, NULL, 1, "Bait Bag",               "Beedle Shop Ship"),
-    (31, 'D2', 1, "Cabana Deed",            "Mrs. Marie (20 Joy Pendants)"),
-    (32, NULL, 1, "Triforce of Courage",    "Triforce Chart x8"),
-    (33, 'D2', 0, "Deluxe Picto Box",       "Lenzo"),
-    (34, 'D2', 0, "Hero's Charm",           "Mrs. Marie (40 Joy Pendants)"),
-    (35, 'B3', 0, "Bottle 3",               "Beedle Special Shop (500 Rupees)"),
-    (36, 'D2', 0, "Magic Armor",            "Zunari (Exotic Flower)"),
-    (37, 'D2', 0, "Bottle 4",               "Mila")
+    (01, 1, "Telescope",              "Aryll"),
+    (02, 1, "Hero's Sword",           "Orca"),
+    (03, 1, "Hero's Sheild",          "Granny"),
+    (04, 1, "Spoils Bag",             "Tetra's Pirate Ship - Niko's Rope Challenge"),
+    (05, 1, "Pirate's Charm",         "Tetra"),
+    (06, 1, "Sail",                   "Zunari (80 Rupees)"),
+    (07, 0, "Tingle Tuner",           "Tingle"),
+    (08, 0, "Picto Box",              "Tingle's cell maze"),
+    (09, 1, "Wind Waker",             "The King of Red Lions"),
+    (10, 1, "Delivery Bag",           "Quill"),
+    (11, 1, "Bottle 1",               "Medli"),
+    (12, 1, "Grappling Hook",         "Dragon Roost Cavern"),
+    (13, 1, "Din's Pearl",            "Komali"),
+    (14, 0, "Bottle 2",               "Submarine"),
+    (15, 1, "Deku Leaf",              "Great Deku Tree"),
+    (16, 1, "Boomerang",              "Forbidden Woods"),
+    (17, 1, "Farore's Pearl",         "Great Deku Tree"),
+    (18, 1, "Bombs",                  "Tetra's Pirate Ship - Niko's Rope Challenge"),
+    (19, 1, "Nayru's Pearl",          "Jabun"),
+    (20, 1, "Hero's Bow",             "Tower of the Gods"),
+    (21, 1, "Master Sword",           "Hyrule Castle"),
+    (22, 1, "Skull Hammer",           "Phantom Ganon"),
+    (23, 1, "Fire & Ice Arrows",      "Fairy Queen"),
+    (24, 1, "Power Bracelets",        "Secret Cave"),
+    (25, 1, "Mirror Shield",          "Earth Temple"),
+    (26, 1, "Master Sword Restore 1", "Earth Temple"),
+    (27, 1, "Iron Boots",             "Secret Cave"),
+    (28, 1, "Hookshot",               "Wind Temple"),
+    (29, 1, "Master Sword Restore 2", "Wind Temple"),
+    (30, 1, "Bait Bag",               "Beedle Shop Ship"),
+    (31, 1, "Cabana Deed",            "Mrs. Marie (20 Joy Pendants)"),
+    (32, 1, "Triforce of Courage",    "Triforce Chart x8"),
+    (33, 0, "Deluxe Picto Box",       "Lenzo"),
+    (34, 0, "Hero's Charm",           "Mrs. Marie (40 Joy Pendants)"),
+    (35, 0, "Bottle 3",               "Beedle Special Shop (500 Rupees)"),
+    (36, 0, "Magic Armor",            "Zunari (Exotic Flower)"),
+    (37, 0, "Bottle 4",               "Mila")
+;
+
+-- Rupees
+--------------------
+CREATE TABLE IF NOT EXISTS `Rupee`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `value` UNSIGNED INTEGER NOT NULL,
+    `color` VARCHAR(12) NOT NULL,
+);
+CREATE UNIQUE INDEX `rupee_value` ON
+    `Rupee`(`value`);
+CREATE UNIQUE INDEX `rupee_color` ON
+    `Rupee`(`color`);
+
+INSERT INTO `Rupee` (
+    `id`, `value`, `color`
+) VALUES
+    (001, 001, 'green'),
+    (005, 005, 'blue'),
+    (010, 010, 'yellow'),
+    (020, 020, 'red'),
+    (050, 050, 'purple'),
+    (100, 100, 'orange'),
+    (200, 200, 'silver')
 ;
 
 -- Spoils
@@ -305,135 +319,295 @@ INSERT INTO `Spoil` (
 --------------------
 CREATE TABLE IF NOT EXISTS `TreasureChart`(
     `number` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2),
-    `details` VARCHAR(100) NOT NULL,
-        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+    `chartNumber` UNSIGNED INTEGER NOT NULL,
+    `details` VARCHAR(50) NOT NULL
 );
-CREATE INDEX `treasure_chart_location` ON
-    `TreasureChart`(`location`);
+CREATE UNIQUE INDEX `treasure_chart_number` ON
+    `TreasureChart`(`chartNumber`);
 
 INSERT INTO `TreasureChart` (
-    `number`, `location`, `details`
+    `number`, `chartNumber`, `details`
 ) VALUES
-    (01, 'F6', "In Forbidden Woods"),
-    (02, 'D2', "Give Maggie's Father 20 Skull Necklaces"),
-    (03, 'F6', "Small island outside Forest Haven, Deku Leaf"),
-    (04, 'B3', "Beedle Special Shop (900 Rupees)"),
-    (05, 'D1', "In Wind Temple"),
-    (06, 'E4', "In Tower of the Gods"),
-    (07, 'D2', "Win the Zee Fleet mini-game (2nd)"),
-    (08, 'A7', "Clear the Secret Cave"),
-    (09, 'E1', "Clear the Submarine"),
-    (10, 'E1', "Sitting on the island"),
-    (11, 'F2', "In Dragon Roost Cavern"),
-    (12, 'C7', "In Earth Temple"),
-    (13, 'D7', "Clear the artillery from the reef"),
-    (14, 'C7', "Clear the Submarine"),
-    (15, 'F6', "In Forbidden Woods"),
-    (16, 'F1', "Clear the Platforms"),
-    (17, 'C2', "Win the Cannon Shoot mini-game (2nd)"),
-    (18, 'D2', "Win the Auction (2nd)"),
-    (19, 'A2', "Clear all artillery from the reef"),
-    (20, 'C7', "In Earth Temple"),
-    (21, 'C4', "Clear all artillery from the reef"),
-    (22, 'C1', "Clear the Submarine"),
-    (23, 'D2', "Win the Zee Fleet mini-game (3rd)"),
-    (24, 'D2', "Show Lenzo & friend picto to gossip ladies"),
-    (25, 'G6', "Use Secret Cave to reach it on high cliff"),
-    (26, 'D4', "Clear all artillery from the reef"),
-    (27, 'E5', "On top of the cliff"),
-    (28, 'A7', "Finish the ""Golf"" game with the Boko Nuts"),
-    (29, 'D2', "Secret room in Lenzo's house"),
-    (30, 'E4', "In Tower of the Gods"),
-    (31, 'D2', "Show full moon picto to man on steps"),
-    (32, 'A4', "Clear all artillery from the reef"),
-    (33, 'D2', "Show picto of old beauty queen to herself"),
-    (34, 'F4', "Given by Salvage Corp."),
-    (35, 'D1', "In Wind Temple"),
-    (36, 'E6', "Use Fire Arrows on iced chest"),
-    (37, 'B3', "Clear the Secret Cave"),
-    (38, 'D2', "Win the Auction (1st)"),
-    (39, 'F2', "In Dragon Roost Cavern"),
-    (40, 'D6', "Clear the Platforms"),
-    (41, 'B6', "Clear the artillery from the reef")
+    (01, 01, "In Forbidden Woods"),
+    (02, 02, "Give Maggie's Father 20 Skull Necklaces"),
+    (03, 03, "Small island outside Forest Haven, Deku Leaf"),
+    (04, 04, "Beedle Special Shop (900 Rupees)"),
+    (05, 05, "In Wind Temple"),
+    (06, 06, "In Tower of the Gods"),
+    (07, 07, "Win the Zee Fleet mini-game (2nd)"),
+    (08, 08, "Clear the Secret Cave"),
+    (09, 09, "Clear the Submarine"),
+    (10, 10, "Sitting on the island"),
+    (11, 11, "In Dragon Roost Cavern"),
+    (12, 12, "In Earth Temple"),
+    (13, 13, "Clear the artillery from the reef"),
+    (14, 14, "Clear the Submarine"),
+    (15, 15, "In Forbidden Woods"),
+    (16, 16, "Clear the Platforms"),
+    (17, 17, "Win the Cannon Shoot mini-game (2nd)"),
+    (18, 18, "Win the Auction (2nd)"),
+    (19, 19, "Clear all artillery from the reef"),
+    (20, 20, "In Earth Temple"),
+    (21, 21, "Clear all artillery from the reef"),
+    (22, 22, "Clear the Submarine"),
+    (23, 23, "Win the Zee Fleet mini-game (3rd)"),
+    (24, 24, "Show Lenzo & friend picto to gossip ladies"),
+    (25, 25, "Use Secret Cave to reach it on high cliff"),
+    (26, 26, "Clear all artillery from the reef"),
+    (27, 27, "On top of the cliff"),
+    (28, 28, "Finish the ""Golf"" game with the Boko Nuts"),
+    (29, 29, "Secret room in Lenzo's house"),
+    (30, 30, "In Tower of the Gods"),
+    (31, 31, "Show full moon picto to man on steps"),
+    (32, 32, "Clear all artillery from the reef"),
+    (33, 33, "Show picto of old beauty queen to herself"),
+    (34, 34, "Given by Salvage Corp."),
+    (35, 35, "In Wind Temple"),
+    (36, 36, "Use Fire Arrows on iced chest"),
+    (37, 37, "Clear the Secret Cave"),
+    (38, 38, "Win the Auction (1st)"),
+    (39, 39, "In Dragon Roost Cavern"),
+    (40, 40, "Clear the Platforms"),
+    (41, 41, "Clear the artillery from the reef")
 ;
 
 -- Triforce Charts
 --------------------
-CREATE TABLE IF NOT EXISTS `TriforceChart`(
-    `number` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2),
-    `details` VARCHAR(100) NOT NULL,
-        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+CREATE TABLE IF NOT EXISTS `TriforceShardChart`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `chartNumber` UNSIGNED INTEGER NOT NULL,
+    `details` VARCHAR(50) NOT NULL
 );
-CREATE INDEX `triforce_chart_location` ON
-    `TriforceChart`(`location`);
+CREATE UNIQUE INDEX `triforce_chart_number` ON
+    `TriforceChart`(`chartNumber`);
 
 INSERT INTO `TriforceChart` (
-    `number`, `location`, `details`
+    `number`, `chartNumber`, `details`
 ) VALUES
-    (01, 'B5', "Inside the ""Secret Cave"""),
-    (02, 'E5', "Clear the Secret Cave (fireplace"),
-    (03, 'G5', "Use Seagull to hit 5 switchs; In Secret Cave"),
-    (04, NULL, "Clear the Ghost Ship (G7,G3,B4,E1,A6,F5,C2)"),
-    (05, 'A5', "Defeat Golden Cannon Boat; light ring"),
-    (06, 'B7', "Clear the Secret Cave (level 30)"),
-    (07, 'C5', "Clear the Secret Cave"),
-    (08, 'G1', "Clear the Secret Cave")
+    (01, 01, "Inside the ""Secret Cave"""),
+    (02, 02, "Clear the Secret Cave (fireplace"),
+    (03, 03, "Use Seagull to hit 5 switchs; In Secret Cave"),
+    (04, 04, "Clear the Ghost Ship (G7,G3,B4,E1,A6,F5,C2)"),
+    (05, 05, "Defeat Golden Cannon Boat; light ring"),
+    (06, 06, "Clear the Secret Cave (level 30)"),
+    (07, 07, "Clear the Secret Cave"),
+    (08, 08, "Clear the Secret Cave")
 ;
 
 -- Triforce Shards
 --------------------
 CREATE TABLE IF NOT EXISTS `TriforceShard`(
-    `id` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2),
-        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+    `id` INTEGER PRIMARY KEY NOT NULL
 );
-CREATE INDEX `triforce_shard_location` ON
-    `TriforceShard`(`location`);
 
 INSERT INTO `TriforceShard` (
-    `id`, `location`
+    `id`
 ) VALUES
-    (01, 'B4'),
-    (02, 'B7'),
-    (03, 'C5'),
-    (04, 'D1'),
-    (05, 'D5'),
-    (06, 'D7'),
-    (07, 'F1'),
-    (08, 'G6')
+    (01), -- B4
+    (02), -- B7
+    (03), -- C5
+    (04), -- D1
+    (05), -- D5
+    (06), -- D7
+    (07), -- F1
+    (08)  -- G6
 ;
 
 -- Other Charts
 --------------------
 CREATE TABLE IF NOT EXISTS `OtherChart`(
-    `number` INTEGER PRIMARY KEY NOT NULL,
-    `location` CHAR(2),
+    `id` INTEGER PRIMARY KEY NOT NULL,
     `name` VARCHAR(17) NOT NULL,
-    `details` VARCHAR(50) NOT NULL,
-        FOREIGN KEY (`location`) REFERENCES `Location`(`coordinate`)
+    `details` VARCHAR(50) NOT NULL
 );
-CREATE INDEX `other_chart_location` ON
-    `OtherChart`(`location`);
 CREATE UNIQUE INDEX `other_chart_name` ON
     `OtherChart`(`name`);
 
 INSERT INTO `OtherChart` (
-    `number`, `location`, `name`, `details`
+    `id`, `name`, `details`
 ) VALUES
-    (01, 'A6', "Ghost Ship Chart",    "Clear the Secret Cave"),
-    (02, 'D2', "Tingle's Chart",      "Free Tingle from jail"),
-    (03, NULL, "IN-credible Chart",   "Letter, after Zelda"),
-    (04, 'D3', "Octo Chart",          "Use Treasure Chart 26"),
-    (05, 'A2', "Great Fairy Chart",   "Use Treasure Chart 41"),
-    (06, 'G2', "Island Hearts Chart", "Use Treasure Chart 19"),
-    (07, 'F7', "Sea Hearts Chart",    "Use Treasure Chart 32"),
-    (08, 'G1', "Secret Cave Chart",   "Use Treasure Chart 13"),
-    (09, 'C4', "Light Ring Chart",    "Use Treasure Chart 21"),
-    (10, 'G2', "Platform Chart",      "Clear the Submarine"),
-    (11, NULL, "Beedle's Chart",      "Letter, after Bombs"),
-    (12, 'F7', "Submarine Chart",     "Clear the Secret Cave")
+    (01, "Ghost Ship Chart",    "Clear the Secret Cave"), -- A6
+    (02, "Tingle's Chart",      "Free Tingle from jail"), -- D2
+    (03, "IN-credible Chart",   "Letter, after Zelda"),
+    (04, "Octo Chart",          "Use Treasure Chart 26"), -- D3
+    (05, "Great Fairy Chart",   "Use Treasure Chart 41"), -- A2
+    (06, "Island Hearts Chart", "Use Treasure Chart 19"), -- G2
+    (07, "Sea Hearts Chart",    "Use Treasure Chart 32"), -- F7
+    (08, "Secret Cave Chart",   "Use Treasure Chart 13"), -- G1
+    (09, "Light Ring Chart",    "Use Treasure Chart 21"), -- C4
+    (10, "Platform Chart",      "Clear the Submarine"),   -- G2
+    (11, "Beedle's Chart",      "Letter, after Bombs"),
+    (12, "Submarine Chart",     "Clear the Secret Cave")  -- F7
+;
+
+-- Wind Waker Songs
+--------------------
+CREATE TABLE IF NOT EXISTS `WindWakerSong`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `name` VARCHAR(20) NOT NULL
+);
+CREATE UNIQUE INDEX `wind_waker_song_name` ON
+    `WindWakerSong`(`name`);
+
+INSERT INTO `WindWakerSong` (
+    `id`, `name`
+) VALUES
+    (01, "Wind's Requiem"),    -- F2 Dragon Roost Island                    Wind Shrine
+    (02, "Song of Passing"),   -- D2 Windfall Island                        Tott
+    (03, "Command Melody"),    -- E4 Tower of the Gods                      monument
+    (04, "Ballad of Gales"),   -- ~~ Great Sea (B2/D2/F2/C3/B4/E4/D6/F6/B7) Cyclos
+    (05, "Earth's God Lyric"), -- C7 Headstone Island                       monument
+    (06, "Wind's God Aria")    -- D1 Gale Isle                              monumen
+;
+
+-- Great Fairies
+--------------------
+CREATE TABLE IF NOT EXISTS `GreatFairy`(
+    `id` INTEGER PRIMARY KEY NOT NULL
+);
+
+INSERT INTO `GreatFairy` (
+    `id`
+) VALUES
+    (01), -- C1
+    (02), -- B7
+    (03), -- D7
+    (04), -- D6
+    (05), -- E3
+    (06), -- B2
+    (07), -- A3
+    (08)  -- G4
+;
+
+-- Great Fairy Upgrades
+--------------------
+CREATE TABLE IF NOT EXISTS `GreatFairyUpgrade`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `name` INTEGER NOT NULL,
+    `greatFairyId` INTEGER NOT NULL,
+        FOREIGN KEY (`greatFairyId`) REFERENCES
+            `GreatFairy`(`id`)
+);
+
+INSERT INTO `GreatFairyUpgrade` (
+    `id`, `greatFairyId`, `name`
+) VALUES
+    (01, 01, 'Wallet'),
+    (02, 02, 'Wallet'),
+    (03, 03, 'Magic Meter'),
+    (04, 04, 'Bomb'),
+    (05, 05, 'Bomb'),
+    (06, 06, 'Fire & Ice Arrows'),
+    (07, 07, 'Arrow'),
+    (08, 08, 'Arrow')
+;
+
+-- Great Fairy Access Requirement Item
+--------------------
+CREATE TABLE IF NOT EXISTS `GreatFairyAccessRequirementItem`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `greatFairyId` INTEGER NOT NULL,
+    `itemId` INTEGER NOT NULL,
+        FOREIGN KEY (`greatFairyId`) REFERENCES
+            `GreatFairy`(`id`),
+        FOREIGN KEY (`itemId`) REFERENCES
+            `Item`(`id`)
+);
+
+INSERT INTO `GreatFairyAccessRequirementItem` (
+    `id`, `greatFairyId`, `itemId`
+) VALUES
+    (01, 02, 15), -- (Deku Leaf) & Bombs
+    (02, 02, 18), -- Deku Leaf & (Bombs)
+    (03, 03, 16), -- Boomerang
+    (04, 04, 18), -- Bombs
+    (05, 05, 18), -- Bombs
+    (06, 07, 22), -- Skull Hammer
+    (07, 08, 22)  -- Skull Hammer
+;
+
+-- Great Fairy Access Requirement Item
+--------------------
+CREATE TABLE IF NOT EXISTS `GreatFairyAccessRequirementWindWakerSong`(
+    `id` INTEGER PRIMARY KEY NOT NULL,
+    `greatFairyId` INTEGER NOT NULL,
+    `windWakerSongId` INTEGER NOT NULL,
+        FOREIGN KEY (`greatFairyId`) REFERENCES
+            `GreatFairy`(`id`),
+        FOREIGN KEY (`windWakerSongId`) REFERENCES
+            `WindWakerSong`(`id`)
+);
+
+INSERT INTO `GreatFairyAccessRequirementWindWakerSong` (
+    `id`, `greatFairyId`, `windWakerSongId`
+) VALUES
+    (01, 06, 04), -- Ballad of Gales
+;
+
+
+------------------------------------------------------------------------
+
+-- Sunken Chest
+--------------------
+CREATE TABLE IF NOT EXISTS `SunkenChest`(
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `expectedLocation` CHAR(2) NOT NULL,
+        FOREIGN KEY (`expectedLocation`) REFERENCES
+            `Location`(`coordinate`)
+);
+
+INSERT INTO `SunkenChest` (
+    `id`, `expectedLocation`
+) VALUES
+    (01, 'A1'),
+    (02, 'A2'),
+    (03, 'A3'),
+    (04, 'A4'),
+    (05, 'A5'),
+    (06, 'A6'),
+    (07, 'A7'),
+    (08, 'B1'),
+    (09, 'B2'),
+    (10, 'B3'),
+    (11, 'B4'),
+    (12, 'B5'),
+    (13, 'B6'),
+    (14, 'B7'),
+    (15, 'C1'),
+    (16, 'C2'),
+    (17, 'C3'),
+    (18, 'C4'),
+    (19, 'C5'),
+    (20, 'C6'),
+    (21, 'C7'),
+    (22, 'D1'),
+    (23, 'D2'),
+    (24, 'D3'),
+    (25, 'D4'),
+    (26, 'D5'),
+    (27, 'D6'),
+    (28, 'D7'),
+    (29, 'E1'),
+    (30, 'E2'),
+    (31, 'E3'),
+    (32, 'E4'),
+    (33, 'E5'),
+    (34, 'E6'),
+    (35, 'E7'),
+    (36, 'F1'),
+    (37, 'F2'),
+    (38, 'F3'),
+    (39, 'F4'),
+    (40, 'F5'),
+    (41, 'F6'),
+    (42, 'F7'),
+    (43, 'G1'),
+    (44, 'G2'),
+    (45, 'G3'),
+    (46, 'G4'),
+    (47, 'G5'),
+    (48, 'G6'),
+    (49, 'G7')
 ;
 
 -- Sunken Treasure → Heart Pieces
@@ -502,26 +676,31 @@ INSERT INTO `SunkenTriforceShard` (
 CREATE TABLE IF NOT EXISTS `SunkenChart`(
     `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     `treasureChartNumber` INTEGER NOT NULL,
-    `otherChartNumber` INTEGER NOT NULL,
+    `sunkenChestId` INTEGER NOT NULL,
+    `otherChartId` INTEGER NOT NULL,
         FOREIGN KEY (`treasureChartNumber`) REFERENCES
             `TreasureChart`(`number`),
-        FOREIGN KEY (`otherChartNumber`) REFERENCES
-            `OtherChart`(`number`)
+        FOREIGN KEY (`sunkenChestId`) REFERENCES
+            `SunkenChest`(`id`),
+        FOREIGN KEY (`otherChartId`) REFERENCES
+            `OtherChart`(`id`)
 );
 CREATE UNIQUE INDEX `sunken_chart_tcNum` ON
     `SunkenChart`(`treasureChartNumber`);
+CREATE INDEX `sunken_chart_scNum` ON
+    `SunkenChart`(`sunkenChestId`);
 CREATE UNIQUE INDEX `sunken_chart_ocNum` ON
-    `SunkenChart`(`otherChartNumber`);
+    `SunkenChart`(`otherChartId`);
 
 INSERT INTO `SunkenChart` (
-    `treasureChartNumber`, `otherChartNumber`
+    `treasureChartNumber`, `sunkenChestId`, `otherChartId`
 ) VALUES
-    (26, 04), -- D3
-    (41, 05), -- A2
-    (19, 06), -- G2
-    (32, 07), -- F7
-    (13, 08), -- G1
-    (21, 09)  -- C4
+    (41, 02, 05), -- A2 Four-Eye Reef            Great Fairy Chart
+    (21, 18, 09), -- C4 Cyclops Reef             Light Ring Chart
+    (26, 24, 04), -- D3 Northern Triangle Island Octo Chart
+    (32, 42, 07), -- F7 Boating Course           Sea Hearts Chart
+    (13, 43, 08), -- G1 Overlook Island          Secret Cave Chart
+    (19, 44, 06)  -- G2 Flight Control Platform  Island Hearts Chart
 ;
 
 -- Sunken Treasure → Rupees
