@@ -33,3 +33,7 @@ bin/
 
 # MySQL Workbench
 *.bak
+*-journal
+
+# macOS
+.DS_Store
